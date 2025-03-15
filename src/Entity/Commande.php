@@ -48,6 +48,10 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
     }
@@ -173,6 +177,18 @@ class Commande
     public function setUser(?User $User): static
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }
