@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Gestion des catégories
+  Gestion de prix de vente
 {% endblock %}
 
 {% block body %}
@@ -9,15 +9,15 @@
     <div class="container">
       <div class="example-wrapper">
         <div class="head-content">
-          <a href="{{ path('produit.category.add') }}" class="btn-1">Créer une nouvelle catégorie</a>
+          <a href="{{ path('produit.prix.vente.add') }}" class="btn-1">Créer une nouvelle prix</a>
         </div>
         <table class="table table-striped">
           <tr>
-            <th>Nom</th>
+            <th>Prix (Ariary)</th>
           </tr>
-          {% for cat in category %}
+          {% for prix in prix_vente %}
             <tr>
-              <td>{{ cat.nom  }}</td>
+              <td>{{ prix.valeur|number_format }}</td>
             </tr>
           {% endfor %}
         </table>

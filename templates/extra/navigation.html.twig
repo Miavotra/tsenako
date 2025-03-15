@@ -1,0 +1,22 @@
+<nav class="site-navigation">
+    <div class="logo-menu ">
+        <a href=""><img src="/images/logo.svg" width="200" alt=""></a>
+    </div>
+    <ul>
+        <li>
+            <a href="">Dasboard</a>
+        </li>
+        <li class="has-submenu">
+            <a href="{{ path('produit.index') }}">Produit</a>
+            <ul class="sub-menu {{ app.current_route starts with 'produit.' ? 'active' : '' }}" >
+                <li><a href="{{ path(('produit.index')) }}">Lister</a></li>
+                <li><a href="{{ path(('produit.add')) }}">Ajouter</a></li>
+                <li><a href="{{ path(('produit.prix.vente.index')) }}">Prix de vente</a></li>
+                <li><a href="{{ path(('produit.category.index')) }}">Category</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ path('commande.index') }}">Commande</a>
+        </li>
+    </ul>
+</nav>

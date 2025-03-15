@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Création d'un nouveau produit
+{% endblock %}
+
+{% block body %}
+  <section class="pt-5 pb-5">
+    <div class="container">
+    <div class="form-user">
+
+      <div class="sect-title">
+        <h1>Création d'un nouveau produit</h1>
+      </div>
+
+      {% if error is defined %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+        {{ form_start(form) }}
+        {{ form_end(form) }}</div>
+    </div>
+  </section>
+{% endblock %}

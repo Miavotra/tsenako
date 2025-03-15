@@ -7,11 +7,17 @@
 {% block body %}
   <section class="pt-5 pb-5">
     <div class="container">
+    <div class="form-user">
       <div class="sect-title">
         <h1>Création d'un nouveau Utilisateur</h1>
       </div>
-      {{ form_start(form) }}
-      {{ form_end(form) }}
+     {{ form_start(form) }}
+      <div class="row justify-content-center">
+        <div class="col-md-12 form-groupe col-lg-12 col-12 ">{{ form_row(form.email) }}</div>
+        <div class="col-md-12 form-groupe col-lg-12 col-12 ">{{ form_row(form.password) }}</div>
+        <div class="col-md-12 form-btn text-center col-lg-12 col-12 mb-3">{{ form_row(form.save) }}</div>
+      </div>
+      {{ form_end(form) }}</div>
     </div>
   </section>
 {% endblock %}

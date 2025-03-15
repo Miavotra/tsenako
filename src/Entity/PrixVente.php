@@ -6,6 +6,7 @@ use App\Repository\PrixVenteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PrixVenteRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PrixVente
 {
     #[ORM\Id]
@@ -16,8 +17,15 @@ class PrixVente
     #[ORM\Column]
     private ?int $valeur = null;
 
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTime $createdAt = null;
+ 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?int $status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'prixVentes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Produit $produit = null;
 
     public function getId(): ?int
     {
@@ -36,14 +44,36 @@ class PrixVente
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): void
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime();
+    }
+ 
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): static
+    {
+        $this->produit = $produit;
 
         return $this;
     }

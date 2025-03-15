@@ -6,6 +6,7 @@ use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CategoryType extends AbstractType
 {
@@ -13,12 +14,16 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('Nom')
+            ->add('Save', SubmitType::Class,[
+                'label' => 'Enregistrer'
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'csrf_protection' => true, // ⚠️ Juste pour tester !
             'data_class' => Category::class,
         ]);
     }

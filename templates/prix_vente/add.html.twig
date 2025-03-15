@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Création d'une nouvelle prix de vente
+{% endblock %}
+
+{% block body %}
+  <section class="pt-5 pb-5">
+    <div class="container">
+      <div class="sect-title">
+        <h1>Création d'une nouvelle prix de vente</h1>
+      </div>
+      {{ form_start(form) }}
+      <div class="form-contact form-login">
+        <div class="row">
+          <div class="col-md-12 col-12 col-lg-12 mb-3">{{ form_row(form.valeur) }}</div>
+          <div class="col-md-12 col-12 mb-3 text-right form-btn">{{ form_row(form.Save) }}</div>
+        </div>
+      </div>
+      {{ form_end(form) }}
+    </div>
+  </section>
+{% endblock %}

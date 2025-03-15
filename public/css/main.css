@@ -1,0 +1,249 @@
+section {
+    padding: 80px 0;
+}
+
+a,
+a:hover,
+a:focus {
+    text-decoration: none;
+}
+
+body {
+    font-family: "Comfortana";
+    font-size: 16px;
+    color: #282828;
+    line-height: 1.4;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sect-title h1 {
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #282828;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+}
+
+.sect-title h1:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 2px;
+    width: 200px;
+    background-color: #282828;
+    transform: translateX(-50%);
+}
+
+.form-user {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 20px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+    background-color: #f5f5f5;
+}
+
+.form-user form>div:not(.form-groupe),
+form .form-groupe>div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.form-user form>div label,
+.form-contact label,
+form .form-groupe>div label {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #282828;
+    line-height: 1;
+}
+
+.form-user form>div select,
+.form-user form>div input,
+.form-contact input,
+form .form-groupe>div input {
+    width: 100%;
+    flex: 1;
+    line-height: 20px;
+    padding: 15px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    min-height: 50px;
+    margin-bottom: 10px;
+}
+
+.form-contact input[type=checkbox] {
+    padding: 5px;
+    line-height: 10px;
+    flex: 0 0 20px;
+    min-height: 20px;
+    width: 20px;
+    text-align: left;
+}
+
+.form-user form>div button,
+form .form-btn button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 20px 0 20px 0;
+    background-color: #282828;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.form-user form>div button:hover,
+form .form-btn button:hover {
+    color: #282828;
+}
+
+.form-user form>div button:before,
+form .form-btn button::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    content: "";
+    transition: 0.5s linear;
+    z-index: -1;
+    background-color: #FF9211;
+}
+
+.form-user form>div button:hover::before,
+form .form-btn button:hover::before {
+    width: 100%;
+}
+
+.form-login {
+    max-width: 500px;
+    padding: 30px;
+    margin: 0 auto;
+    border-radius: 20px;
+    background: #cccccc;
+}
+
+.site-main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.site-main .site-navigation {
+    padding: 30px;
+    flex: 0 0 300px;
+    height: 100vh;
+    background-color: #FF9211;
+}
+
+.site-main .site-navigation .logo-menu {
+    margin-bottom: 20px;
+}
+
+.site-main .site-navigation ul {
+    padding: 0;
+    margin: 0;
+}
+
+.site-main .site-navigation ul>li {
+    display: block;
+    list-style: none;
+}
+
+.site-main .site-navigation>ul>li>a {
+    padding: 10px 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.site-main .site-navigation>ul>li ul {
+    display: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-main .site-navigation>ul>li ul.active {
+    display: block;
+}
+
+.site-main .site-navigation>ul>li ul>li>a {
+    padding: 10px 0 10px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.site-main .content-page {
+    width: 100%;
+    padding: 30px;
+    flex: 1;
+}
+
+.head-content {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.btn-1 {
+    padding: 15px 30px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 18px;
+    background-color: #FF9211;
+    border-radius: 10px;
+    color: #282828;
+    overflow: hidden;
+    position: relative;
+    transition: 0.5s linear;
+    font-weight: bold;
+    display: inline-flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 20px 0 20px 0;
+    align-items: center;
+    z-index: 1;
+}
+
+.btn-1:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-1::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    content: "";
+    transition: 0.5s linear;
+    z-index: -1;
+    background-color: #282828;
+}
+
+.btn-1:hover::before {
+    width: 100%;
+}
