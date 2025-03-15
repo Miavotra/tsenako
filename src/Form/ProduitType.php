@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\PrixVente;
 use App\Entity\Produit;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,8 +17,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProduitType extends AbstractType
 {
+
+    // Injection de l'EntityManager
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
+        // Récupérer l'entité liée au formulaire
+        $produit = $options['data'];
+
+        // Récupérer une valeur dynamique depuis la base de données
+        $valeur = $this->entityManager->getRepository(PrixVente::class)
+            ->createQueryBuilder('pv')
+            ->select('pv.valeur')
+            ->where('pv.status = :active')
+            ->andWhere('pv.produit = :produit')
+            ->setParameter('active', 1)
+            ->setParameter('produit', $produit->getId())
+            ->setMaxResults(1) // Vous pouvez récupérer un seul produit, par exemple
+            ->getQuery()
+            ->getOneOrNullResult();
+
         $builder
             ->add('name') 
             ->add('category', EntityType::class, [
@@ -26,7 +50,8 @@ class ProduitType extends AbstractType
             ]) 
             ->add('Prix', TextType::Class, [
                 'mapped' => false,
-                'label' => 'prix'
+                'label' => 'prix',
+                'data' => $valeur ? $valeur['valeur'] : '', // Texte par défaut ou récupéré
             ])
             ->add('Save', SubmitType::Class,[
                 'label' => 'Enregistrer'

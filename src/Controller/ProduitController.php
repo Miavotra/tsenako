@@ -6,6 +6,7 @@ use App\Form\ProduitType;
 use App\Entity\Produit;
 use App\Entity\PrixVente;
 use App\Repository\ProduitRepository;
+use App\Repository\PrixVenteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +27,20 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}/edit', 'produit.edit')]
-    public function edit(Produit $produit, Request $request, EntityManagerInterface $em)
+    public function edit(Produit $produit, Request $request, EntityManagerInterface $em, PrixVenteRepository $prixVenteRepository)
     {
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $prixTem = new PrixVente();
+            $prixTem->setStatus(1);
+            $prixTem->setValeur($form->get('Prix')->getData());
+            $prixTem->setProduit($produit);
+
+            $prixVenteRepository->setStatusToZero($produit, 0);
+
+            $em->persist($prixTem);
+            $em->persist($produit);
             $em->flush();
             $this->addFlash("success", 'Le produit a bien été modifié');
             return $this->redirectToRoute('produit.index');

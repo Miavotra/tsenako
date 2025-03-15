@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\PrixVente;
+use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +15,21 @@ class PrixVenteRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PrixVente::class);
+    }
+
+    public function setStatusToZero(Produit $produit, $value): void
+    {
+        // Créer un QueryBuilder pour effectuer l'update
+        $qb = $this->createQueryBuilder('pv');
+
+        $qb->update(PrixVente::class, 'pv')
+            ->set('pv.status', ':status')
+            ->where('pv.produit = :produit_id')
+            ->setParameter('status', $value)
+            ->setParameter('produit_id', $produit->getId());
+
+        // Exécuter la requête
+        $qb->getQuery()->execute();
     }
 
     //    /**
