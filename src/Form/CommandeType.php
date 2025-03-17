@@ -9,6 +9,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Event\PostSubmitEvent;
+use Symfony\Component\Form\FormEvents;
 
 class CommandeType extends AbstractType
 {
@@ -18,31 +22,45 @@ class CommandeType extends AbstractType
             ->add('description')
             ->add('quantite')
             ->add('prixUnitaire')
-            ->add('status')
             ->add('prixTotal')
-            ->add('reference')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('prodtuit', EntityType::class, [
+            ->add('reference')  
+            ->add('produit', EntityType::class, [
                 'class' => Produit::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name', // Le champ à afficher dans le select
             ])
             ->add('User', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'email',
             ])
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+                    'En attente' => 'En attente' ,
+                    'En cours' => 'En cours',
+                    'Succées' => 'Succées' ,
+                ]])
+            ->add('Save', SubmitType::Class,[
+                'label' => 'Enregistrer'
+            ]) 
+            ->addEventListener(FormEvents::POST_SUBMIT, $this->updateDate(...));
         ;
     }
 
+    public function updateDate(PostSubmitEvent $event) {
+        $data = $event->getData();
+        if(!($data instanceof Commande)) {
+            return;
+        }
+        if(!($data->getID())){
+            $data->setReference(""); 
+        }
+    }
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'csrf_protection' => true, // ⚠️ Juste pour tester !
             'data_class' => Commande::class,
+            'csrf_protection' => true, // Assure-toi que c'est activé
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'commande_item', // Un identifiant unique
         ]);
     }
 }

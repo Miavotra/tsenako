@@ -52,7 +52,8 @@ body {
     background-color: #f5f5f5;
 }
 
-.form-user form>div:not(.form-groupe),
+.form-user form>div:not(.form-groupe, .row),
+.form-user form>div:not(.row),
 form .form-groupe>div {
     display: flex;
     justify-content: flex-start;
@@ -149,11 +150,15 @@ form .form-btn button:hover::before {
     justify-content: flex-start;
     align-items: flex-start;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 .site-main .site-navigation {
     padding: 30px;
     flex: 0 0 300px;
+    position: sticky;
+    top: 0;
+    left: 0;
     height: 100vh;
     background-color: #FF9211;
 }
@@ -200,6 +205,9 @@ form .form-btn button:hover::before {
     width: 100%;
     padding: 30px;
     flex: 1;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden auto;
 }
 
 .head-content {
@@ -246,4 +254,8 @@ form .form-btn button:hover::before {
 
 .btn-1:hover::before {
     width: 100%;
+}
+
+.form-user.form-big {
+    max-width: 100%;
 }

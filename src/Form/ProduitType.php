@@ -14,6 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+
 
 class ProduitType extends AbstractType
 {
@@ -43,7 +46,7 @@ class ProduitType extends AbstractType
             ->getOneOrNullResult();
 
         $builder
-            ->add('name') 
+            ->add('name')  
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'nom',
@@ -55,7 +58,7 @@ class ProduitType extends AbstractType
             ])
             ->add('Save', SubmitType::Class,[
                 'label' => 'Enregistrer'
-            ])
+            ]);
             // ->addEventListener(FormEvents::POST_SUBMIT, $this->updateDate(...));
         ;
     }
@@ -72,8 +75,10 @@ class ProduitType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'csrf_protection' => true, // ⚠️ Juste pour tester !
             'data_class' => Produit::class,
+            'csrf_protection' => true, // Assure-toi que c'est activé
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'produit_item', // Un identifiant unique
         ]);
     }
 }

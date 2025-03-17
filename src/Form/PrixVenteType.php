@@ -9,6 +9,8 @@ use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class PrixVenteType extends AbstractType
 {
@@ -18,7 +20,7 @@ class PrixVenteType extends AbstractType
             ->add('valeur') 
             ->add('Save', SubmitType::Class,[
                 'label' => 'Enregistrer'
-            ])
+            ]) 
             ->addEventListener(FormEvents::POST_SUBMIT, $this->updateDate(...));
         ;
     }
@@ -36,7 +38,9 @@ class PrixVenteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PrixVente::class,
-            'csrf_protection' => true, // ⚠️ Juste pour tester !
+            'csrf_protection' => true, // Assure-toi que c'est activé
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'prix_item', // Un identifiant unique
 
         ]);
     }

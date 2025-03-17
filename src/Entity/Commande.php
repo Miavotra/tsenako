@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Commande
 {
     #[ORM\Id]
@@ -29,7 +30,7 @@ class Commande
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Produit $prodtuit = null;
+    private ?Produit $produit = null;
 
     #[ORM\Column]
     private ?int $prixTotal = null;
@@ -38,10 +39,10 @@ class Commande
     private ?string $reference = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTime $updatedAt = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -49,7 +50,6 @@ class Commande
 
     public function __construct()
     {
-        $this->produit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,14 +105,14 @@ class Commande
         return $this;
     }
 
-    public function getProdtuit(): ?Produit
+    public function getProduit(): ?Produit
     {
-        return $this->prodtuit;
+        return $this->produit;
     }
 
-    public function setProdtuit(?Produit $prodtuit): static
+    public function setProduit(?Produit $produit): static
     {
-        $this->prodtuit = $prodtuit;
+        $this->produit = $produit;
 
         return $this;
     }
@@ -141,29 +141,29 @@ class Commande
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): void
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime();
 
-        return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTimestamps(): void
     {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
+        $this->updatedAt = new \DateTime();
     }
+
 
     public function getUser(): ?User
     {
