@@ -1,35 +1,23 @@
-<nav class="site-navigation">
-  <div class="logo-menu">
-    <a href=""><img src="/images/logo.svg" width="200" alt="" /></a>
-  </div>
-  <ul>
-    <li>
-      <a href="">Dasboard</a>
-    </li>
-    <li class="has-submenu">
-      <a href="{{ path('produit.index') }}">Produit</a>
-      <ul class="sub-menu {{ app.current_route starts with 'produit.' ? 'active' : '' }}">
-        <li>
-          <a href="{{ path('produit.index') }}">Lister</a>
-        </li>
-        <li>
-          <a href="{{ path('produit.add') }}">Ajouter</a>
-        </li>
-        <li>
-          <a href="{{ path('produit.category.index') }}">Category</a>
-        </li>
-      </ul>
-    </li>
-    <li class="has-submenu">
-      <a href="{{ path('commande.index') }}">Commande</a>
-      <ul class="sub-menu {{ app.current_route starts with 'commande.' ? 'active' : '' }}">
-        <li>
-          <a href="{{ path('commande.index') }}">Lister</a>
-        </li>
-        <li>
-          <a href="{{ path('commande.add') }}">Ajouter</a>
-        </li> 
-      </ul>
-    </li>
-  </ul>
-</nav>
+
+ <!-- Sidebar -->
+ <div class="sidebar">
+ <a href="#" class="logo">
+     <i class="bx bx-code-alt"></i>
+     <div class="logo-name"><span> Tsenako </div>
+ </a>
+ <ul class="side-menu">
+     <li class="{{ app.current_route starts with 'app_home' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+     <li class="{{ app.current_route starts with 'shop.' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bx-store-alt'></i>Shop</a></li>
+     <li class="{{ app.current_route starts with 'produit.' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bx-analyse'></i>Produit</a></li>
+     <li class="{{ app.current_route starts with 'commande.' ? 'active' : '' }}" ><a href="{{ path('commande.index') }}"><i class='bx bx-message-square-dots'></i>Commande</a></li>
+     <li class="{{ app.current_route starts with 'user.' ? 'active' : '' }}" ><a href="{{ path('user.index') }}"><i class='bx bx-group'></i>Users</a></li>
+ </ul>
+ <ul class="side-menu">
+     <li>
+         <a href="{{ path('app_logout') }}" class="logout">
+             <i class='bx bx-log-out-circle'></i> Logout
+         </a>
+     </li>
+ </ul>
+</div>
+<!-- End of Sidebar -->

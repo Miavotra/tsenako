@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class CategoryController extends AbstractController
 { 
     #[Route('/category', name: 'produit.category.index')]
+    #[IsGranted('ROLE_USER')]
     public function index(Request $request, CategoryRepository $repository): Response
     {
         $category = $repository->findAll();
@@ -25,6 +27,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/add', 'produit.category.add')]
+    #[IsGranted('ROLE_USER')]
     public function add(Request $request, EntityManagerInterface $em, SessionInterface $session): RedirectResponse|Response
     {
         $category = new Category();

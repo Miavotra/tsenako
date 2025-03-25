@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class PrixVenteController extends AbstractController
 { 
     #[Route('/prix/vente', name: 'produit.prix.vente.index')]
+    #[IsGranted('ROLE_USER')]
     public function index(Request $request, PrixVenteRepository $repository): Response
     {
         $prix_vente = $repository->findAll();
@@ -26,6 +28,7 @@ final class PrixVenteController extends AbstractController
     }
 
     #[Route('/prix/vente/add', 'produit.prix.vente.add')]
+    #[IsGranted('ROLE_USER')]
     public function add(Request $request, EntityManagerInterface $em, SessionInterface $session): RedirectResponse|Response
     {
         $prix_vente = new PrixVente();

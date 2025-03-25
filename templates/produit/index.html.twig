@@ -7,9 +7,16 @@
 {% block body %}
   <section>
     <div class="container">
-      <div class="head-content">
-        <a href="{{ path('produit.add') }}" class="btn-1">Créer une nouvelle produit</a>
-      </div>
+      <div class="header ">
+              <a href="{{ path('produit.category.add') }}" class="report pending">
+                  <i class='bx bx-cloud-download'></i>
+                  <span>Créer une nouvelle categorie de produit</span>
+              </a>
+              <a href="{{ path('produit.add') }}" class="report">
+                  <i class='bx bx-cloud-download'></i>
+                  <span>Créer une nouvelle produit</span>
+              </a>
+          </div>
       <div class="body-content">
         <table class="table table-striped">
           <tr>

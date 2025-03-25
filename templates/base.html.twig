@@ -8,9 +8,12 @@
       {% endblock %}
     </title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>" />
-    <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="https://cdn.arobiz.pro/bootstrap@4/css/bootstrap.min.css" crossorigin="anonymous" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortana:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="https://cdn.arobiz.pro/jquery@2/jquery.min.js" crossorigin="anonymous"></script>
 
     {% block stylesheets %}
 
@@ -23,16 +26,45 @@
     {% endblock %}
   </head>
   <body>
-    <div class="site-main">
         {% if app.user %}
             {% include 'extra/navigation.html.twig' %}
         {% endif %}
-        <div class="content-page">
-            {% include 'extra/flash.html.twig' %}
-            {% block body %}
-            {% endblock %}
+        <!-- Main Content -->
+    <div class="content">
+    <!-- Navbar -->
+    {% if app.user %}
+
+      <nav>
+          <i class='bx bx-menu'></i>
+          <form action="#">
+              <div class="form-input">
+                  <input type="search" placeholder="Search...">
+                  <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+              </div>
+          </form>
+          <input type="checkbox" id="theme-toggle" hidden>
+          <label for="theme-toggle" class="theme-toggle"></label>
+          <a href="#" class="notif">
+              <i class='bx bx-bell'></i>
+              <span class="count">12</span>
+          </a>
+          <a href="#" class="profile">
+              <img src="images/logo.png">
+          </a>
+      </nav>
+    {% endif %}
+
+      <!-- End of Navbar -->
+
+      <main>
+          {% include 'extra/flash.html.twig' %}
+          {% block body %}
+          {% endblock %}
+      </main>
+
+  </div>
         </div>
-    </div>
   </body>
   <script src="https://cdn.arobiz.pro/bootstrap@4/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="/js/index.js" ></script>
 </html>

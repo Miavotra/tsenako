@@ -14,12 +14,16 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class CommandeController extends AbstractController
 {
-    #[Route('/commande', name: 'commande.index')]
+    #[Route('/commande', name: 'commande.index')] 
+    #[IsGranted('ROLE_USER')]
     public function index(Request $request, CommandeRepository $repository): Response
     {
+
         $commande = $repository->findAll(); 
         return $this->render('commande/index.html.twig', [
             'commandes' => $commande,
@@ -27,6 +31,7 @@ final class CommandeController extends AbstractController
     }
 
     #[Route('/commande/{id}/edit', 'commande.edit')]
+    #[IsGranted('ROLE_USER')]
     public function edit(Commande $commande, Request $request, EntityManagerInterface $em, PrixVenteRepository $prixVenteRepository)
     {
         $form = $this->createForm(CommandeType::class, $commande);
@@ -44,6 +49,7 @@ final class CommandeController extends AbstractController
     }
 
     #[Route('/commande/add', 'commande.add')]
+    #[IsGranted('ROLE_USER')]
     public function add(Request $request, EntityManagerInterface $em, SessionInterface $session): RedirectResponse|Response
     {
         $commande = new Commande();

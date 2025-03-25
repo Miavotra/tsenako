@@ -15,8 +15,12 @@ body {
     line-height: 1.4;
 }
 
+table {
+    color: var(--dark) !important;
+}
+
 .container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -86,6 +90,9 @@ form .form-groupe>div input {
     outline: none;
     box-shadow: none;
     min-height: 50px;
+    background: none;
+    border: 1px solid #cccccc;
+    border-radius: 0px;
     margin-bottom: 10px;
 }
 
@@ -142,7 +149,7 @@ form .form-btn button:hover::before {
     padding: 30px;
     margin: 0 auto;
     border-radius: 20px;
-    background: #cccccc;
+    background: #fff;
 }
 
 .site-main {
