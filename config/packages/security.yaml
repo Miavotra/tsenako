@@ -13,6 +13,17 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: api_login
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
         
         main:
             lazy: true
@@ -42,6 +53,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

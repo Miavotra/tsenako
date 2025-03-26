@@ -14,7 +14,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final class ProduitController extends AbstractController
 {
@@ -26,6 +30,19 @@ final class ProduitController extends AbstractController
         return $this->render('produit/index.html.twig', [
             'produits' => $produit,
         ]);
+    }
+
+    #[Route('/api/produits', name: 'api_list_produits', methods: ['POST'])]
+    public function apiProduitList(Request $request, ProduitRepository $repository, SerializerInterface $serializer): JsonResponse
+    {
+        $produits = $repository->findAll(); 
+
+        return $this->json(
+            ['produits' => $produits], 
+            200,
+            [],
+            ['groups' => 'produit:read']
+        );
     }
 
     #[Route('/produit/{id}/edit', 'produit.edit')]

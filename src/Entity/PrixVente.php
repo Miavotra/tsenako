@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PrixVenteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 #[ORM\Entity(repositoryClass: PrixVenteRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class PrixVente
@@ -15,12 +17,14 @@ class PrixVente
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $valeur = null;
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTime $createdAt = null;
  
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'prixVentes')]
