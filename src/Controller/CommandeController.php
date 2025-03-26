@@ -57,8 +57,12 @@ final class CommandeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
            
-            $em->persist($commande);
             try {
+                $user = $this->getUser(); // Récupère l'utilisateur connecté
+
+                $commande->setCreatedBy($user);
+
+                $em->persist($commande);
                 $em->flush();
                 $this->addFlash('success', 'Le commande a été bien créé');
                 return $this->redirectToRoute('commande.index');
