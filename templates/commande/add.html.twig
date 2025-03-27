@@ -7,7 +7,7 @@
 {% block body %}
   <section class="pt-5 pb-5">
     <div class="container">
-      <div class="form-user form-big">
+      <div class="form-box">
         <div class="sect-title">
           <h1>Création d'un nouveau commande</h1>
         </div>
@@ -15,20 +15,79 @@
         {% if error is defined %}
           <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
-        {{ form_start(form) }}
-        <div class="row align-items-end">
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.produit) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.prixUnitaire) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.quantite) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.description) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.status) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.prixTotal ) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.reference) }}</div>
-          <div class="col-md col-sm-6 co1-12 ">{{ form_row(form.User) }}</div>
-          <div class="col-md-auto col-sm-6 co1-12 form-btn text-sm-right mb-2">{{ form_row(form.Save) }}</div>
-        </div>
-        {{ form_end(form) }}
+
+        <form action="{{ path('commande.add') }}" method="POST" class="form-custom">
+          <div class="row align-items-end">
+            <div class="col-md-4 col-sm-6 col-12">
+              <div class="label">Reference</div>
+              <input type="text" class="form-control" name="" value="commande-{{ 'now'|date('d-m-Y-h:i:s') }}" disabled id="" />
+              <input type="hidden" class="form-control" name="reference" value="commande-{{ 'now'|date('d-m-Y-h:i:s') }}" id="" />
+            </div>
+            <div class="col-md col-sm-6 col-12">
+              <div class="label">Description</div>
+              <textarea name="description" id="" class="form-control"></textarea>
+            </div>
+            <div class="col-md col-sm-6 col-12">
+              <div class="label">Choisissez un produit</div>
+              <select name="user" class="form-control" required>
+                {% for user in users %}
+                  <option value="{{ user.id }}">{{ user.email }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-auto col-sm-6 col-12">
+              <button type="submit" class="btn-1 mb-10" required>Enregister</button>
+            </div>
+          </div>
+          <div class="row pt-5">
+            <div class="col-md col-12 mb-15">
+              <div class="title-form" required>Liste des produit</div>
+            </div>
+            <div class="col-md-auto col-12 mb-15">
+              <button type="button" onclick="addProduit()" class="btn-1 type-2">Ajouter un produit</button>
+            </div>
+          </div>
+          <div class="item-produit mb-4">
+            <div class="row align-items-end">
+              <div class="col-md-4 col-sm-6 col-12">
+                <div class="label">Choisissez un produit</div>
+                <select name="produit[]" class="form-control" required>
+                  {% for produit in produits %}
+                    <option value="{{ produit.id }}">{{ produit.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md col-sm-6 col-12">
+                <div class="label">Prix Unitaire</div>
+                <input type="number" name="prixunitaire[]" id="" class="form-control" required />
+              </div>
+              <div class="col-md col-sm-6 col-12">
+                <div class="label">Quantité</div>
+                <input type="number" name="quantity[]" id="" class="form-control" required />
+              </div>
+              <div class="col-md col-sm-6 col-12">
+                <div class="label">Status</div>
+                <select name="status[]" id="" class="form-control" required>
+                  <option value="En cours">En cours</option>
+                  <option value="En attente">En attente</option>
+                  <option value="Validée">Validée</option>
+                  <option value="Livrée">Livrée</option>
+                </select>
+              </div>
+            </div>
+            <hr>
+          </div> 
+        </form>
       </div>
     </div>
   </section>
+
+  <script>
+    
+    const addProduit = function () {
+      let item = document.querySelector('.item-produit').getHTML(),
+        itemLast = document.querySelectorAll('.item-produit')[document.querySelectorAll('.item-produit').length - 1];
+        itemLast.insertAdjacentHTML("afterend",item);
+    }
+  </script>
 {% endblock %}

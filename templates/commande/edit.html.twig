@@ -1,34 +1,88 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Édition du commande 
+  Édition du commande
 {% endblock %}
 
 {% block body %}
   <section class="pt-5 pb-5">
     <div class="container">
-      <div class="form-user form-big">
+      <div class="form-box">
         <div class="sect-title">
-          <h1>Édition du commande</h1>
+          <h1>Création d'un nouveau commande</h1>
         </div>
 
         {% if error is defined %}
           <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
-        {{ form_start(form) }}
-        <div class="row align-items-end">
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.produit) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.prixUnitaire) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.quantite) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.description) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.status) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.prixTotal ) }}</div>
-          <div class="col-md-4 col-sm-6 co1-12 ">{{ form_row(form.reference) }}</div>
-          <div class="col-md col-sm-6 co1-12 ">{{ form_row(form.User) }}</div>
-          <div class="col-md-auto col-sm-6 co1-12 form-btn text-sm-right mb-2">{{ form_row(form.Save) }}</div>
-        </div>
-        {{ form_end(form) }}
+
+        <form action="{{ path('commande.edit', {'id': commande.id}) }}" method="POST" class="form-custom">
+          <div class="row align-items-end">
+            <div class="col-md-4 col-sm-6 col-12">
+              <div class="label">Reference</div>
+              <input type="text" class="form-control" name="" value="{{ commande.reference }}" disabled id="" />
+              <input type="hidden" class="form-control" name="reference" value="{{ commande.reference }}" id="" />
+            </div>
+            <div class="col-md col-sm-6 col-12">
+              <div class="label">Description</div>
+              <textarea name="description"  id="" class="form-control"> {{ commande.description }} </textarea>
+            </div>
+            <div class="col-md col-sm-6 col-12">
+              <div class="label">Proprio de la commande</div>
+              <input type="text" disabled class="form-control" name="" value="{{ commande.user.email }}" placeholder="{{ commande.user.email }}" id="" />
+              <input type="hidden"  class="form-control" name="user" value="{{ commande.user.id }}"   id="" />
+            </div>
+            <div class="col-md-auto col-sm-6 col-12">
+              <button type="submit" class="btn-1 mb-10" required>Enregister</button>
+            </div>
+          </div>
+          <div class="row pt-5">
+            <div class="col-md-12 col-12 mb-15">
+              <div class="title-form" required>Liste des produit</div>
+            </div>
+          </div>
+          {% for commandeProduit in commandeProduits %}
+            <div class="item-produit mb-4">
+              <div class="row align-items-end">
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="label">Nom du produit</div>
+                  <input type="text" name="" disabled value="{{ commandeProduit.produit.name }}" id="" class="form-control" required />
+                  <input type="hidden" name="produit[]" value="{{ commandeProduit.produit.id }}" id="" class="form-control" required />
+                  <input type="hidden" name="commande[]" value="{{ commande.id }}" id="" class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Prix Unitaire</div>
+                  <input type="number" name="" disabled value="{{ commandeProduit.prixunitaire }}" id="" class="form-control" required />
+                  <input type="hidden" name="prixunitaire[]" value="{{ commandeProduit.prixunitaire }}" id="" class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Quantité</div>
+                  <input type="number" name="" disabled value="{{ commandeProduit.quantity }}" id="" class="form-control" required />
+                  <input type="hidden" name="quantity[]" value="{{ commandeProduit.quantity }}" id="" class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Status</div>
+                  <select name="status[]" id="" class="form-control" required>
+                    <option {{ commandeProduit.status == "En cours" ? "selected" : "" }} value="En cours">En cours</option>
+                    <option {{ commandeProduit.status == "En attente" ? "selected" : "" }} value="En attente">En attente</option>
+                    <option {{ commandeProduit.status == "Validée" ? "selected" : "" }} value="Validée">Validée</option>
+                    <option {{ commandeProduit.status == "Livrée" ? "selected" : "" }} value="Livrée">Livrée</option>
+                  </select>
+                </div>
+              </div>
+              <hr />
+            </div>
+          {% endfor %}
+        </form>
       </div>
     </div>
   </section>
+
+  <script>
+    const addProduit = function () {
+      let item = document.querySelector('.item-produit').getHTML(),
+        itemLast = document.querySelectorAll('.item-produit')[document.querySelectorAll('.item-produit').length - 1]
+      itemLast.insertAdjacentHTML('afterend', item)
+    }
+  </script>
 {% endblock %}

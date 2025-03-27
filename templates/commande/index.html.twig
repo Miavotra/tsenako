@@ -17,14 +17,10 @@
           <table class="table table-striped">
             <tr>
               <th>Date</th>
-              <th>Nom Produit</th>
-              <th>Quantite</th>
-              <th>Prix Unitaire</th>
-              <th>Prix Total</th>
-              <th>Prix Total Estimé</th>
+              <th>Reference</th>
+              <th>Description</th>
               <th>Propriétaire</th>
               <th>Createur</th>
-              <th>Description</th>
               <th>Status</th>
               <th>Edition</th>
             </tr>
@@ -34,31 +30,19 @@
                   {{ commande.createdAt.format('Y-m-d H:i:s') }}
                 </td>
                 <td>
-                  {{ commande.produit.name }}
-                </td>
-                <td>
-                  {{ commande.quantite }}
-                </td>
-                <td>
-                  {{ commande.prixUnitaire }}
-                </td>
-                <td>
-                  {{ commande.prixTotal }}
-                </td>
-                <td>
-                  {{ commande.quantite * commande.prixTotal }}
-                </td>
-                <td>
-                  Proprio
-                </td>
-                <td>
-                  Creator
+                  {{ commande.reference }}
                 </td>
                 <td>
                   {{ commande.description }}
+                </td> 
                 <td>
-                  {{ commande.status }}
+                  {{ commande.user.email }}
                 </td>
+                <td>
+                  {{ commande.createdby.email }}
+                </td> 
+                <td>
+                </td> 
                 <td>
                   <a href="{{ path('commande.edit', { id: commande.id }) }}" class="btn-primary btn">Modifier</a>
                 </td>

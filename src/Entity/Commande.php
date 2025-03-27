@@ -19,22 +19,6 @@ class Commande
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?int $quantite = null;
-
-    #[ORM\Column]
-    private ?int $prixUnitaire = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Produit $produit = null;
-
-    #[ORM\Column]
-    private ?int $prixTotal = null;
-
     #[ORM\Column(length: 255)]
     private ?string $reference = null;
 
@@ -72,67 +56,7 @@ class Commande
 
         return $this;
     }
-
-    public function getQuantite(): ?int
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(int $quantite): static
-    {
-        $this->quantite = $quantite;
-
-        return $this;
-    }
-
-    public function getPrixUnitaire(): ?int
-    {
-        return $this->prixUnitaire;
-    }
-
-    public function setPrixUnitaire(int $prixUnitaire): static
-    {
-        $this->prixUnitaire = $prixUnitaire;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getProduit(): ?Produit
-    {
-        return $this->produit;
-    }
-
-    public function setProduit(?Produit $produit): static
-    {
-        $this->produit = $produit;
-
-        return $this;
-    }
-
-    public function getPrixTotal(): ?int
-    {
-        return $this->prixTotal;
-    }
-
-    public function setPrixTotal(int $prixTotal): static
-    {
-        $this->prixTotal = $prixTotal;
-
-        return $this;
-    }
-
+ 
     public function getReference(): ?string
     {
         return $this->reference;
@@ -167,8 +91,7 @@ class Commande
     {
         $this->updatedAt = new \DateTime();
     }
-
-
+    
     public function getUser(): ?User
     {
         return $this->User;
