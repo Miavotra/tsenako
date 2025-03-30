@@ -21,7 +21,7 @@ const searchBtn = document.querySelector('.content nav form .form-input button')
 const searchBtnIcon = document.querySelector('.content nav form .form-input button .bx');
 const searchForm = document.querySelector('.content nav form');
 
-searchBtn.addEventListener('click', function (e) {
+searchBtn.addEventListener('click', function(e) {
     if (window.innerWidth < 576) {
         e.preventDefault;
         searchForm.classList.toggle('show');
@@ -45,12 +45,12 @@ window.addEventListener('resize', () => {
     }
 });
 
-const toggler = document.getElementById('theme-toggle');
+// const toggler = document.getElementById('theme-toggle');
 
-toggler.addEventListener('change', function () {
-    if (this.checked) {
-        document.body.classList.add('dark');
-    } else {
-        document.body.classList.remove('dark');
-    }
-});
+// toggler.addEventListener('change', function() {
+//     if (this.checked) {
+//         document.body.classList.add('dark');
+//     } else {
+//         document.body.classList.remove('dark');
+//     }
+// });

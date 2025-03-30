@@ -1,12 +1,12 @@
 
  <!-- Sidebar -->
  <div class="sidebar">
- <a href="#" class="logo">
+ <a href="{{ path('app_home') }}" class="logo">
      <i class="bx bx-code-alt"></i>
      <div class="logo-name"><span> Tsenako </div>
  </a>
  <ul class="side-menu">
-     <li class="{{ app.current_route starts with 'app_home' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+     <li class="{{ app.current_route starts with 'app_home' ? 'active' : '' }}" ><a href="{{ path('app_home') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
      <li class="{{ app.current_route starts with 'shop.' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bx-store-alt'></i>Shop</a></li>
      <li class="{{ app.current_route starts with 'produit.' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bx-analyse'></i>Produit</a></li>
      <li class="{{ app.current_route starts with 'commande.' ? 'active' : '' }}" ><a href="{{ path('commande.index') }}"><i class='bx bx-message-square-dots'></i>Commande</a></li>

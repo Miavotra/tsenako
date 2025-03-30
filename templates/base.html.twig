@@ -25,7 +25,7 @@
       {% endblock %}
     {% endblock %}
   </head>
-  <body class="{% if not app.user %} login-page {% endif %}">
+  <body class="dark {% if not app.user %} login-page {% endif %}">
         {% if app.user %}
             {% include 'extra/navigation.html.twig' %}
         {% endif %}
@@ -43,7 +43,7 @@
               </div>
           </form>
           <input type="checkbox" id="theme-toggle" hidden>
-          <label for="theme-toggle" class="theme-toggle"></label>
+          {# <label for="theme-toggle" class="theme-toggle"></label> #}
           <a href="#" class="notif">
               <i class='bx bx-bell'></i>
               <span class="count">12</span>
