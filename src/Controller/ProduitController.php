@@ -34,7 +34,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/api/produits', name: 'api_list_produits', methods: ['GET'])]
-    public function apiProduitList(Request $request, ProduitRepository $repository, SerializerInterface $serializer): JsonResponse
+    public function apiProduitList(Request $request, ProduitRepository $repository): JsonResponse
     {
         $produits = $repository->findAll(); 
 

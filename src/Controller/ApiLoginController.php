@@ -29,4 +29,23 @@ final class ApiLoginController extends AbstractController
             'token' => $token,
         ]);
     }
+
+    #[Route('/api/getMe', name: 'api_get_me', methods: ['GET'])]
+    public function getMe(#[CurrentUser] ?User $user, JWTTokenManagerInterface $JWTManager): JsonResponse
+    {
+        if (null === $user) {
+            return $this->json([
+                 'message' => 'missing credentials',
+            ], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $res = [
+            'email' => $user->getUserIdentifier(),
+            'role' => $user->getRoles()
+        ];
+
+        return $this->json([
+            'user'  => $res
+        ]);
+    }
 }
