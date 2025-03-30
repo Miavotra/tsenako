@@ -320,4 +320,5 @@ form .form-btn button:hover::before {
     font-size: 24px;
     font-weight: bold;
     color: #FF9211;
+    line-height: 54px;
 }

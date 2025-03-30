@@ -3,9 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\VenteRepository;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VenteRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Vente
 {
     #[ORM\Id]
@@ -16,28 +20,26 @@ class Vente
     #[ORM\Column(length: 255)]
     private ?string $reference = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Produit $produit = null;
-
-    #[ORM\Column]
-    private ?int $quantite = null;
-
-    #[ORM\Column]
-    private ?int $prixVente = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $commentaire = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTime $updatedAt = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
+
+    #[ORM\OneToMany(targetEntity: VenteProduit::class, mappedBy: 'vente', cascade: ['persist', 'remove'])]
+    private Collection $venteProduits;
+
+    public function __construct()
+    {
+        $this->venteProduits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -56,42 +58,6 @@ class Vente
         return $this;
     }
 
-    public function getProduit(): ?Produit
-    {
-        return $this->produit;
-    }
-
-    public function setProduit(?Produit $produit): static
-    {
-        $this->produit = $produit;
-
-        return $this;
-    }
-
-    public function getQuantite(): ?int
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(int $quantite): static
-    {
-        $this->quantite = $quantite;
-
-        return $this;
-    }
-
-    public function getPrixVente(): ?int
-    {
-        return $this->prixVente;
-    }
-
-    public function setPrixVente(int $prixVente): static
-    {
-        $this->prixVente = $prixVente;
-
-        return $this;
-    }
-
     public function getCommentaire(): ?string
     {
         return $this->commentaire;
@@ -104,26 +70,29 @@ class Vente
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new DateTime();
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt =  new DateTime();
 
         return $this;
     }
@@ -138,5 +107,19 @@ class Vente
         $this->User = $User;
 
         return $this;
+    }
+
+    public function getVenteProduits(): Collection
+    {
+        return $this->venteProduits;
+    }
+
+    public function getTotalPrixVente(): float
+    {
+        $total = 0;
+        foreach ($this->venteProduits as $venteProduit) {
+            $total += $venteProduit->getPrixVente() * $venteProduit->getQuantite();
+        }
+        return $total;
     }
 }

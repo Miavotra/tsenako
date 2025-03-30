@@ -10,6 +10,7 @@
      <li class="{{ app.current_route starts with 'shop.' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bx-store-alt'></i>Shop</a></li>
      <li class="{{ app.current_route starts with 'produit.' ? 'active' : '' }}" ><a href="{{ path('produit.index') }}"><i class='bx bx-analyse'></i>Produit</a></li>
      <li class="{{ app.current_route starts with 'commande.' ? 'active' : '' }}" ><a href="{{ path('commande.index') }}"><i class='bx bx-message-square-dots'></i>Commande</a></li>
+     <li class="{{ app.current_route starts with 'vente.' ? 'active' : '' }}" ><a href="{{ path('vente.index') }}"><i class='bx bx-purchase-tag'></i>Vente</a></li>
      <li class="{{ app.current_route starts with 'user.' ? 'active' : '' }}" ><a href="{{ path('user.index') }}"><i class='bx bx-group'></i>Users</a></li>
  </ul>
  <ul class="side-menu">

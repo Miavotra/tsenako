@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Création d'un nouveau commande
+  Création d'une nouvelle vente
 {% endblock %}
 
 {% block body %}
@@ -9,31 +9,23 @@
     <div class="container">
       <div class="form-box">
         <div class="sect-title">
-          <h1>Création d'un nouveau commande</h1>
+          <h1>Création d'une nouvelle vente</h1>
         </div>
 
         {% if error is defined %}
           <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
 
-        <form action="{{ path('commande.add') }}" method="POST" class="form-custom">
+        <form action="{{ path('vente.add') }}" method="POST" class="form-custom">
           <div class="row align-items-end">
             <div class="col-md-4 col-sm-6 col-12">
               <div class="label">Reference</div>
-              <input type="text" class="form-control" name="" value="commande-{{ 'now'|date('d-m-Y-his') }}" disabled id="" />
-              <input type="hidden" class="form-control" name="reference" value="commande-{{ 'now'|date('d-m-Y-his') }}" id="" />
+              <input type="text" class="form-control" name="" value="vente-{{ 'now'|date('d-m-Y-his') }}" disabled />
+              <input type="hidden" class="form-control" name="reference" value="vente-{{ 'now'|date('d-m-Y-his') }}" />
             </div>
             <div class="col-md col-sm-6 col-12">
-              <div class="label">Description</div>
-              <textarea name="description" id="" class="form-control"></textarea>
-            </div>
-            <div class="col-md col-sm-6 col-12">
-              <div class="label">Proprio de la commande</div>
-              <select name="user" class="form-control" required>
-                {% for user in users %}
-                  <option value="{{ user.id }}">{{ user.email }}</option>
-                {% endfor %}
-              </select>
+              <div class="label">Commentaire</div>
+              <textarea name="commentaire" class="form-control"></textarea>
             </div>
             <div class="col-md-auto col-sm-6 col-12">
               <button type="submit" class="btn-1 mb-10" required>Enregister</button>
@@ -41,7 +33,7 @@
           </div>
           <div class="row pt-5">
             <div class="col-md col-12 mb-15">
-              <div class="title-form" required>Liste des produit</div>
+              <div class="title-form" required>Liste des produits</div>
             </div>
             <div class="col-md-auto col-12 mb-15">
               <button type="button" onclick="addProduit()" class="btn-1 type-2">Ajouter un produit</button>
@@ -59,20 +51,11 @@
               </div>
               <div class="col-md col-sm-6 col-12">
                 <div class="label">Prix Unitaire</div>
-                <input type="number" name="prixunitaire[]" id="" class="form-control" required />
+                <input type="number" name="prixunitaire[]" class="form-control" required />
               </div>
               <div class="col-md col-sm-6 col-12">
                 <div class="label">Quantité</div>
-                <input type="number" name="quantity[]" id="" class="form-control" required />
-              </div>
-              <div class="col-md col-sm-6 col-12">
-                <div class="label">Status</div>
-                <select name="status[]" id="" class="form-control" required>
-                  <option value="En cours">En cours</option>
-                  <option value="En attente">En attente</option>
-                  <option value="Validée">Validée</option>
-                  <option value="Livrée">Livrée</option>
-                </select>
+                <input type="number" name="quantity[]" class="form-control" required />
               </div>
             </div>
             <hr>

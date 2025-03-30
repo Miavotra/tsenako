@@ -28,7 +28,7 @@ final class UserController extends AbstractController
 
     #[Route('/user/add', 'user.add')]
     #[IsGranted('ROLE_USER')]
-    public function addUser(Request $request, EntityManagerInterface $em,UserPasswordHasherInterface $passwordHasher): RedirectResponse|Response
+    public function addUser(Request $request, EntityManagerInterface $em,UserPasswordHasherInterface $passwordHasher): Response
     {
             $user = new User();
             $form = $this->createForm(UserType::class,$user);

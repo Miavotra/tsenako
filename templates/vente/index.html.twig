@@ -1,20 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello VenteController!{% endblock %}
+{% block title %}
+  Toutes nos vente
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/monemax/Documents/Asa/tsenako/src/Controller/VenteController.php</code></li>
-        <li>Your template at <code>/Users/monemax/Documents/Asa/tsenako/templates/vente/index.html.twig</code></li>
-    </ul>
-</div>
+  <section>
+    <div class="container">
+          <div class="header "> 
+              <a href="{{ path('vente.add') }}" class="report">
+                  <i class='bx bx-cloud-download'></i>
+                  <span>Créer une nouvelle vente</span>
+              </a>
+          </div>
+        <div class="body-content">
+          <table class="table table-striped">
+            <tr>
+              <th>Date</th>
+              <th>Reference</th>
+              <th>Prix de vente</th>
+              <th>Commentaire</th>
+              <th>Createur</th>
+              <th>Edition</th>
+            </tr>
+            {% for vente in ventes %}
+              <tr>
+                <td>
+                  {{ vente.createdAt.format('Y-m-d H:i:s') }}
+                </td>
+                <td>
+                  {{ vente.reference }}
+                </td>
+                <td>
+                  {{ vente.TotalPrixVente | number_format(0, ',', ' ') }}
+                </td>
+                <td>
+                  {{ vente.commentaire }}
+                </td> 
+                <td>
+                  {{ vente.user.email }}
+                </td> 
+                <td>
+                  <a href="{{ path('vente.edit', { id: vente.id }) }}" class="btn-primary btn">Modifier</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+    </div>
+  </section>
 {% endblock %}

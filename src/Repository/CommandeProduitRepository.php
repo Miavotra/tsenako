@@ -16,19 +16,19 @@ class CommandeProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, CommandeProduit::class);
     }
 
-       /**
-        * @return CommandeProduit[] Returns an array of CommandeProduit objects
-        */
-       public function findByCommand($value): array
-       {
-           return $this->createQueryBuilder('c')
-               ->andWhere('c.commande = :val')
-               ->setParameter('val', $value)
-               ->orderBy('c.id', 'ASC')
-               ->getQuery()
-               ->getResult()
-           ;
-       }
+    /**
+    * @return CommandeProduit[] Returns an array of CommandeProduit objects
+    */
+    public function findByCommand($value): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.commande = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     //    public function findOneBySomeField($value): ?CommandeProduit
     //    {

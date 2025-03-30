@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Édition vente
+{% endblock %}
+
+{% block body %}
+  <section class="pt-5 pb-5">
+    <div class="container">
+      <div class="form-box">
+        <div class="sect-title">
+          <h1>Edition de la vente</h1>
+        </div>
+
+        {% if error is defined %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form action="{{ path('vente.edit', {'id': vente.id}) }}" method="POST" class="form-custom">
+          <div class="row align-items-end">
+            <div class="col-md-4 col-sm-6 col-12">
+              <div class="label">Reference</div>
+              <input type="text" class="form-control" name="" value="{{ vente.reference }}" disabled id="" />
+              <input type="hidden" class="form-control" name="reference" value="{{ vente.reference }}" id="" />
+            </div>
+            <div class="col-md col-sm-6 col-12">
+              <div class="label">Commentaire</div>
+              <textarea name="commentaire"  id="" class="form-control"> {{ vente.commentaire }} </textarea>
+            </div>
+            <div class="col-md-auto col-sm-6 col-12">
+              <button type="submit" class="btn-1 mb-10" required>Enregister</button>
+            </div>
+          </div>
+          <div class="row pt-5">
+            <div class="col-md-12 col-12 mb-15">
+              <div class="title-form" required>Liste des produit</div>
+            </div>
+          </div>
+          {% for venteProduit in venteProduits %}
+            <div class="item-produit mb-4">
+              <div class="row align-items-end">
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="label">Nom du produit</div>
+                  <input type="text" name="" disabled value="{{ venteProduit.produit.name }}" id="" class="form-control" required />
+                  <input type="hidden" name="produit[]" value="{{ venteProduit.produit.id }}" id="" class="form-control" required />
+                  <input type="hidden" name="vente[]" value="{{ vente.id }}" id="" class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Prix Unitaire</div>
+                  <input type="number" name="" disabled value="{{ venteProduit.prixVente }}" id="" class="form-control" required />
+                  <input type="hidden" name="prixunitaire[]" value="{{ venteProduit.prixVente }}" id="" class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Quantité</div>
+                  <input type="number" name="" disabled value="{{ venteProduit.quantite }}" id="" class="form-control" required />
+                  <input type="hidden" name="quantity[]" value="{{ venteProduit.quantite }}" id="" class="form-control" required />
+                </div>
+              </div>
+              <hr />
+            </div>
+          {% endfor %}
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const addProduit = function () {
+      let item = document.querySelector('.item-produit').getHTML(),
+        itemLast = document.querySelectorAll('.item-produit')[document.querySelectorAll('.item-produit').length - 1]
+      itemLast.insertAdjacentHTML('afterend', item)
+    }
+  </script>
+{% endblock %}
