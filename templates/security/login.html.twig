@@ -7,34 +7,34 @@
 {% block body %}
   <section>
     <div class="container">
-      <form method="post" class="form-contact form-login">
-        {% if error %}
-          <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+      <div class="login-form">
+        <form method="post" >
+          {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+          {% endif %}
 
-        {% if app.user %}
+          {% if app.user %}
+            <div class="mb-3">
+              You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+          {% endif %}
+
           <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            <input type="email" value="{{ last_username }}" placeholder="Adresse email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus />
           </div>
-        {% endif %}
+          <div class="mb-3">
+            <input type="password" name="password" placeholder="Mot de passe" id="inputPassword" class="form-control" autocomplete="current-password" required />
+          </div>
 
-        <div class="mb-3">
-          <label for="inputEmail">Email</label>
-          <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus />
-        </div>
-        <div class="mb-3">
-          <label for="inputPassword">Password</label>
-          <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required />
-        </div>
+          <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticated') }}" />
 
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticated') }}">
+          <div class="checkbox mb-3 ">
+            <label>  <input type="checkbox" name="_remember_me" /> Se souvenir de moi</label>
+          </div>
 
-        <div class="checkbox mb-3 pt-3">
-          <label><input type="checkbox" name="_remember_me" />Se souvenir de moi</label>
-        </div>
-
-        <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
-      </form>
+          <button class="btn-1" type="submit">Connexion</button>
+        </form>
+      </div>
     </div>
   </section>
 {% endblock %}

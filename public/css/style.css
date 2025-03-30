@@ -176,6 +176,11 @@ body {
     transition: all 0.3s ease;
 }
 
+.login-page .content {
+    left: 0;
+    width: 100%;
+}
+
 .sidebar.close~.content {
     width: calc(100% - 60px);
     left: 60px;
@@ -627,4 +632,147 @@ body {
     .content main .bottom-data .reminders .task-list {
         min-width: 340px;
     }
+}
+
+.login-page {
+    background: #25252B;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
+
+.login-form {
+    width: 400px;
+    padding: 15px;
+    border-radius: 20px;
+    position: relative;
+    z-index: 2;
+    display: block;
+    background: repeating-conic-gradient(from var(--a), #ff2770 0%, #ff2770 5%, transparent 5%, transparent 35%, #ff2770 50%);
+    animation: animeBack 4s linear infinite;
+    animation-delay: -1s;
+    margin: 0 auto;
+    text-align: center;
+}
+
+@property --a {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@keyframes animeBack {
+    0% {
+        --a: 0deg;
+    }
+    100% {
+        --a: 360deg;
+    }
+}
+
+.login-form::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    left: 0;
+    top: 0;
+    animation: animeBack 4s linear infinite;
+    background: repeating-conic-gradient(from var(--a), #45f3ff 0%, #45f3ff 5%, transparent 5%, transparent 35%, #45f3ff 50%);
+    border-radius: 20px;
+}
+
+.login-form::after {
+    position: absolute;
+    content: "";
+    inset: 8px;
+    background: #2d2d39;
+    z-index: -1;
+    border: 9px solid #25252B;
+    border-radius: 17px;
+}
+
+.login-form form {
+    padding: 55px 40px;
+}
+
+.login-form form .form-control {
+    padding: 15px 20px;
+    line-height: 20px;
+    display: flex;
+    justify-content: flex-start;
+    min-height: 55px;
+    align-items: center;
+    background-color: #ffffff10;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    box-shadow: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.login-form form .form-control::placeholder {
+    color: #fff;
+}
+
+.login-form form .checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.login-form form .checkbox input {
+    width: 20px;
+    height: 20px;
+}
+
+.login-form form .checkbox label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.login-form form .btn-1 {
+    background: #45f3ff;
+    padding: 15px 35px;
+    font-size: 15px;
+    color: #25252B;
+    border: none;
+    border-radius: 10px;
+    line-height: 20px;
+    z-index: 1;
+    position: relative;
+}
+
+.login-form form .btn-1::before {
+    position: absolute;
+    content: "";
+    transition: 0.3s ease-in-out;
+    background: #ff2770;
+    border-radius: 10px;
+    transform: scale(0);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    transform-origin: center center;
+}
+
+.login-form form .btn-1:hover {
+    color: #fff;
+}
+
+.login-form form .btn-1:hover:before {
+    transform: scale(1);
 }

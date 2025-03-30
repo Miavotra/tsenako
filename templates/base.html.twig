@@ -25,7 +25,7 @@
       {% endblock %}
     {% endblock %}
   </head>
-  <body>
+  <body class="{% if not app.user %} login-page {% endif %}">
         {% if app.user %}
             {% include 'extra/navigation.html.twig' %}
         {% endif %}
