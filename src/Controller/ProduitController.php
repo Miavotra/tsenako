@@ -8,6 +8,7 @@ use App\Entity\PrixVente;
 use App\Repository\ProduitRepository;
 use App\Repository\PrixVenteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,17 +33,26 @@ final class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/api/produits', name: 'api_list_produits', methods: ['POST'])]
+    #[Route('/api/produits', name: 'api_list_produits', methods: ['GET'])]
     public function apiProduitList(Request $request, ProduitRepository $repository, SerializerInterface $serializer): JsonResponse
     {
         $produits = $repository->findAll(); 
 
+        $res = [];
+        foreach ($produits as $key => $produit) {
+            $obj = new stdClass();
+            $obj->id = $produit->getId();
+            $obj->name = $produit->getName();
+            $obj->prix = $produit->getPrixVente();
+            $obj->category = $produit->getCategory()->getNom();
+            $res[] = $obj; 
+        }
+
         return $this->json(
-            ['produits' => $produits], 
-            200,
-            [],
-            ['groups' => 'produit:read']
+            ['produits' => $res], 
+            200
         );
+        
     }
 
     #[Route('/produit/{id}/edit', 'produit.edit')]

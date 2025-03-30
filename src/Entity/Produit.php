@@ -84,6 +84,14 @@ class Produit
         return $this;
     }
 
+    public function getPrixVente(): ?int
+    {
+        foreach($this->prixVentes as $prix) {
+            if($prix->getStatus() == 1) return $prix->getValeur();
+        }
+        return 0;
+    }
+
     /**
      * @return Collection<int, PrixVente>
      */
