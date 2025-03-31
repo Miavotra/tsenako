@@ -169,7 +169,7 @@ final class VenteController extends AbstractController
             $vente = new Vente();
             $vente->setReference('vente-' . date('d-m-Y-His'));
             $vente->setCommentaire($data['vente']['commentaires']);
-            $vente->setStatus('En cours');
+            $vente->setStatus($data['vente']['status']);
             $vente->setUser($user);
             $em->persist($vente);
 
