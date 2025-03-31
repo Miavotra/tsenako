@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Vente;
 use App\Entity\VenteProduit;
 use App\Repository\ProduitRepository;
@@ -9,12 +10,15 @@ use App\Repository\UserRepository;
 use App\Repository\VenteProduitRepository;
 use App\Repository\VenteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class VenteController extends AbstractController
 {
@@ -121,44 +125,46 @@ final class VenteController extends AbstractController
 
     #[Route('/api/vente', name: 'api_vente_add', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function apiVenteAdd(Request $request, EntityManagerInterface $em, UserRepository $userRepository, ProduitRepository $produitRepository): RedirectResponse|Response
+    public function apiVenteAdd(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $em, UserRepository $userRepository, ProduitRepository $produitRepository): JsonResponse
     {
-        $vente = new Vente();
 
-        dd($request);
+        try {
+            $data = json_decode($request->getContent(), true);
 
-        $users = $userRepository->findAll();
-        $produits = $produitRepository->findAll();
-        if ($request->getMethod() == 'POST') {
-            $vente->setReference($request->get('reference'));
-            $vente->setCommentaire($request->get('commentaire'));
-            $created = $this->getUser(); // Récupère l'utilisateur connecté
-            $vente->setUser($created);
+            $vente = new Vente();
+            $vente->setReference('vente-' . date('d-m-Y-His'));
+            $vente->setCommentaire($data['vente']['commentaires']);
+            $vente->setStatus('En cours');
+            $vente->setUser($user);
             $em->persist($vente);
-            $listProduit = $request->get('produit');
-            $listQuantite = $request->get('quantity');
-            $listPrix = $request->get('prixunitaire');
-            $i = 0;
+
+            $listProduit = $data['vente']['produits'];
             foreach ($listProduit as $prod) {
                 $venteProduit = new VenteProduit();
-                $produit = $produitRepository->find($listProduit[$i]);
+                $produit = $produitRepository->find($prod['id']);
+                if(empty($produit)) throw new Exception("Le produit n'existe pas. id = " . $prod['id']);
                 $venteProduit->setVente($vente);
                 $venteProduit->setProduit($produit);
-                $venteProduit->setQuantite($listQuantite[$i]);
-                $venteProduit->setPrixVente($listPrix[$i]);
-                $i++;
-                $em->persist($venteProduit);
+                $venteProduit->setQuantite($prod['quantite']);
+                $venteProduit->setPrixVente($prod['prixVente']);
 
+                $em->persist($venteProduit);
             }
             $em->flush();
 
-            $this->addFlash("success", 'La vente a bien été enregistré');
-            return $this->redirectToRoute('vente.index');
+            return $this->json(
+                ['code' => 201, 'message' => 'Created'], 
+                201
+            );
+
+        } catch (Exception $e) {
+            return $this->json(
+                ['code' => 400, 'message' => $e->getMessage()], 
+                400
+            );
         }
-        return $this->render('vente/add.html.twig', [
-            'users' => $users,
-            'produits' => $produits
-        ]);
+
+        
     }
 
 }
