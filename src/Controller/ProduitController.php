@@ -25,7 +25,7 @@ final class ProduitController extends AbstractController
 {
     #[Route('/produit', name: 'produit.index')]
     #[IsGranted('ROLE_USER')]
-    public function index(Request $request, ProduitRepository $repository): Response
+    public function index(ProduitRepository $repository): Response
     {
         $produit = $repository->findAll(); 
         return $this->render('produit/index.html.twig', [
@@ -34,7 +34,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/api/produits', name: 'api_list_produits', methods: ['GET'])]
-    public function apiProduitList(Request $request, ProduitRepository $repository): JsonResponse
+    public function apiProduitList(ProduitRepository $repository): JsonResponse
     {
         $produits = $repository->findAll(); 
 

@@ -11,6 +11,7 @@ use App\Repository\VenteProduitRepository;
 use App\Repository\VenteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -123,6 +124,39 @@ final class VenteController extends AbstractController
         ]);
     }
 
+    #[Route('/api/ventes', name: 'api_list_ventes', methods: ['GET'])]
+    public function apiVenteList(VenteRepository $repository, VenteProduitRepository $venteProduitRepository): JsonResponse
+    {
+        $ventes = $repository->findAll(); 
+
+        $res = [];
+        foreach ($ventes as $vente) {
+            $obj = new stdClass();
+            $obj->id = $vente->getId();
+            $obj->commentaires = $vente->getCommentaire();
+            $obj->status = $vente->getStatus();
+            $obj->produits = [];
+
+            $venteProduits = $venteProduitRepository->findByVente($vente->getId());
+
+            foreach($venteProduits as $vp) {
+                $obj->produits[] = [
+                    "id" => $vp->getProduit()->getId(),
+                    "quantite" => $vp->getQuantite(),
+                    "prixVente" => $vp->getPrixVente()
+                ];
+            }
+            $res[] = $obj; 
+        }
+
+
+        return $this->json(
+            ['ventes' => $res], 
+            200
+        );
+        
+    }
+
     #[Route('/api/vente', name: 'api_vente_add', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function apiVenteAdd(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $em, UserRepository $userRepository, ProduitRepository $produitRepository): JsonResponse
@@ -164,7 +198,6 @@ final class VenteController extends AbstractController
             );
         }
 
-        
     }
 
 }
