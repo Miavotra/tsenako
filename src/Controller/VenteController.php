@@ -133,6 +133,7 @@ final class VenteController extends AbstractController
         foreach ($ventes as $vente) {
             $obj = new stdClass();
             $obj->id = $vente->getId();
+            $obj->date = $vente->getUpdatedAt();
             $obj->commentaires = $vente->getCommentaire();
             $obj->status = $vente->getStatus();
             $obj->produits = [];
