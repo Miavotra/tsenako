@@ -159,7 +159,7 @@ final class VenteController extends AbstractController
 
     #[Route('/api/vente', name: 'api_vente_add', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function apiVenteAdd(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $em, UserRepository $userRepository, ProduitRepository $produitRepository): JsonResponse
+    public function apiVenteAdd(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $em, ProduitRepository $produitRepository): JsonResponse
     {
 
         try {
@@ -189,6 +189,37 @@ final class VenteController extends AbstractController
             return $this->json(
                 ['code' => 201, 'message' => 'Created'], 
                 201
+            );
+
+        } catch (Exception $e) {
+            return $this->json(
+                ['code' => 400, 'message' => $e->getMessage()], 
+                400
+            );
+        }
+
+    }
+
+    #[Route('/api/vente/{id}', name: 'api_vente_edit_status', methods: ['PUT'])]
+    #[IsGranted('ROLE_USER')]
+    public function apiVenteEditStatus(int $id, #[CurrentUser] ?User $user, Request $request, EntityManagerInterface $em, ProduitRepository $produitRepository): JsonResponse
+    {
+
+        try {
+            $data = json_decode($request->getContent(), true);
+
+            $vente = $em->getRepository(Vente::class)->find($id);
+
+            if(!$vente) throw new Exception("La vente n'existe pas. id = " . $id);
+
+            $vente->setStatus($data['status']);
+            $vente->setUser($user);
+
+            $em->flush();
+
+            return $this->json(
+                ['code' => 200, 'message' => 'OK'], 
+                200
             );
 
         } catch (Exception $e) {
