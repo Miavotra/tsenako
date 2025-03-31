@@ -79,4 +79,9 @@ class VenteProduit
 
         return $this;
     }
+
+    public function has(Produit $produit): ?bool
+    {
+        return $this->produit->getId() == $produit->getId();
+    }
 }

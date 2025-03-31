@@ -31,7 +31,7 @@ final class ApiLoginController extends AbstractController
     }
 
     #[Route('/api/getMe', name: 'api_get_me', methods: ['GET'])]
-    public function getMe(#[CurrentUser] ?User $user, JWTTokenManagerInterface $JWTManager): JsonResponse
+    public function getMe(#[CurrentUser] ?User $user): JsonResponse
     {
         if (null === $user) {
             return $this->json([

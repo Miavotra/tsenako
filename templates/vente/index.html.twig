@@ -17,9 +17,9 @@
           <table class="table table-striped">
             <tr>
               <th>Date</th>
-              <th>Reference</th>
-              <th>Prix de vente</th>
+              <th>Prix total</th>
               <th>Commentaire</th>
+              <th>Status</th>
               <th>Createur</th>
               <th>Edition</th>
             </tr>
@@ -29,13 +29,13 @@
                   {{ vente.createdAt.format('Y-m-d H:i:s') }}
                 </td>
                 <td>
-                  {{ vente.reference }}
-                </td>
-                <td>
-                  {{ vente.TotalPrixVente | number_format(0, ',', ' ') }}
+                  {{ vente.TotalPrixVente | number_format(0, ',', ' ') }} AR
                 </td>
                 <td>
                   {{ vente.commentaire }}
+                </td> 
+                <td>
+                  {{ vente.status }}
                 </td> 
                 <td>
                   {{ vente.user.email }}

@@ -25,8 +25,17 @@
             </div>
             <div class="col-md col-sm-6 col-12">
               <div class="label">Commentaire</div>
-              <textarea name="commentaire"  id="" class="form-control"> {{ vente.commentaire }} </textarea>
+              <textarea name="commentaire"  id="" class="form-control">{{ vente.commentaire }}</textarea>
             </div>
+            <div class="col-md col-sm-6 col-12">
+                <div class="label">Status</div>
+                <select name="status" id="" class="form-control" required>
+                  <option {{ vente.status == "En cours" ? "selected" : "" }} value="En cours">En cours</option>
+                  <option {{ vente.status == "En attente" ? "selected" : "" }} value="En attente">En attente</option>
+                  <option {{ vente.status == "Validée" ? "selected" : "" }} value="Validée">Validée</option>
+                  <option {{ vente.status == "Livrée" ? "selected" : "" }} value="Livrée">Livrée</option>
+                </select>
+              </div>
             <div class="col-md-auto col-sm-6 col-12">
               <button type="submit" class="btn-1 mb-10" required>Enregister</button>
             </div>
@@ -47,13 +56,11 @@
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Prix Unitaire</div>
-                  <input type="number" name="" disabled value="{{ venteProduit.prixVente }}" id="" class="form-control" required />
-                  <input type="hidden" name="prixunitaire[]" value="{{ venteProduit.prixVente }}" id="" class="form-control" required />
+                  <input type="number" name="prixunitaire[]" value="{{ venteProduit.prixVente }}" id="" class="form-control" required />
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Quantité</div>
-                  <input type="number" name="" disabled value="{{ venteProduit.quantite }}" id="" class="form-control" required />
-                  <input type="hidden" name="quantity[]" value="{{ venteProduit.quantite }}" id="" class="form-control" required />
+                  <input type="number" name="quantity[]" value="{{ venteProduit.quantite }}" id="" class="form-control" required />
                 </div>
               </div>
               <hr />

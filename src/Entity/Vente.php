@@ -36,6 +36,9 @@ class Vente
     #[ORM\OneToMany(targetEntity: VenteProduit::class, mappedBy: 'vente', cascade: ['persist', 'remove'])]
     private Collection $venteProduits;
 
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->venteProduits = new ArrayCollection();
@@ -121,5 +124,17 @@ class Vente
             $total += $venteProduit->getPrixVente() * $venteProduit->getQuantite();
         }
         return $total;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }

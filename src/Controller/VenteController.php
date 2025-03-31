@@ -39,6 +39,7 @@ final class VenteController extends AbstractController
         if ($request->getMethod() == 'POST') {
             $vente->setReference($request->get('reference'));
             $vente->setCommentaire($request->get('commentaire'));
+            $vente->setStatus($request->get('status'));
             $created = $this->getUser(); // Récupère l'utilisateur connecté
             $vente->setUser($created);
             $em->persist($vente);
@@ -75,9 +76,65 @@ final class VenteController extends AbstractController
 
         $venteProduits = $venteProduitRepository->findByVente($vente->getId());
         if ($request->getMethod() == "POST") {
-            $vente = new Vente();
+            $vente->setCommentaire($request->get('commentaire'));
+            $vente->setStatus($request->get('status'));
+            $em->persist($vente);
+            $listProduit = $request->get('produit');
+            $listQuantite = $request->get('quantity');
+            $listPrix = $request->get('prixunitaire');
+            $i = 0;
+            $addProduit = true;
+            foreach ($listProduit as $prod) {
+                $produit = $produitRepository->find($prod);
+                foreach($venteProduits as $vp) {
+                    if ($vp->has($produit)) {
+                        $vp->setQuantite($listQuantite[$i]);
+                        $vp->setPrixVente($listPrix[$i]);
+                        $addProduit = false;
+                    }
+                }
+
+                if ($addProduit) {
+                    $vp = new VenteProduit();
+                    $produit = $produitRepository->find($prod);
+                    $vp->setVente($vente);
+                    $vp->setProduit($produit);
+                    $vp->setQuantite($listQuantite[$i]);
+                    $vp->setPrixVente($listPrix[$i]);
+
+                }
+
+                $i++;
+                $em->persist($vp);
+            }
+            $em->flush();
+
+            $this->addFlash("success", 'La vente ' . $vente->getReference() . ' a bien été enregistré');
+            return $this->redirectToRoute('vente.index');
+        }
+        return $this->render('vente/edit.html.twig', [
+            'vente' => $vente,
+            'produits' => $produitRepository->findAll(),
+            'venteProduits' => $venteProduits
+        ]);
+    }
+
+    #[Route('/api/vente', name: 'api_vente_add', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function apiVenteAdd(Request $request, EntityManagerInterface $em, UserRepository $userRepository, ProduitRepository $produitRepository): RedirectResponse|Response
+    {
+        $vente = new Vente();
+
+        dd($request);
+
+        $users = $userRepository->findAll();
+        $produits = $produitRepository->findAll();
+        if ($request->getMethod() == 'POST') {
             $vente->setReference($request->get('reference'));
             $vente->setCommentaire($request->get('commentaire'));
+            $created = $this->getUser(); // Récupère l'utilisateur connecté
+            $vente->setUser($created);
+            $em->persist($vente);
             $listProduit = $request->get('produit');
             $listQuantite = $request->get('quantity');
             $listPrix = $request->get('prixunitaire');
@@ -91,15 +148,17 @@ final class VenteController extends AbstractController
                 $venteProduit->setPrixVente($listPrix[$i]);
                 $i++;
                 $em->persist($venteProduit);
+
             }
             $em->flush();
 
-            $this->addFlash("success", 'La vente ' . $vente->getReference() . ' a bien été enregistré');
-            return $this->redirectToRoute('vete.index');
+            $this->addFlash("success", 'La vente a bien été enregistré');
+            return $this->redirectToRoute('vente.index');
         }
-        return $this->render('vente/edit.html.twig', [
-            'vente' => $vente,
-            'venteProduits' => $venteProduits
+        return $this->render('vente/add.html.twig', [
+            'users' => $users,
+            'produits' => $produits
         ]);
     }
+
 }
