@@ -54,7 +54,12 @@ final class CommandeController extends AbstractController
             $i = 0;
             if($listProduit) {
                 foreach ($listProduit as $prod) {
-                    if ($commandeProduits[$i]->getCommande()->getId() == $listCommande[$i]) {
+                    if ($listStatus[$i] == -1) {
+                        $em->remove($commandeProduits[$i]);
+                        $em->flush();
+                        continue;
+                    }
+                    if ($commandeProduits[$i]->getCommande()->getId() == $prod) {
                         $commandeProduits[$i]->setStatus($listStatus[$i]);
                         $commandeProduits[$i]->setPrixReel($listPrixReel[$i]);
                         $commandeProduits[$i]->setQuantityReel($listQuantiteReel[$i]);
