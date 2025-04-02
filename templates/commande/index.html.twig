@@ -38,7 +38,8 @@
                 </td> 
                 <td>
                   <div class="progress" data-value="" >
-                  <div class="progress-bar" role="progressbar" style="width: {{ commande.getStatusPercent() }}%;" aria-valuenow="{{ commande.getStatusPercent() }}%" aria-valuemin="0" aria-valuemax="100">{{ commande.getStatusPercent() }}%</div>
+                  <div class="progress-bar" role="progressbar" style="width: {{ commande.getStatusPercent() }}%;" aria-valuenow="{{ commande.getStatusPercent() }}%" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div class="progress-text">{{ commande.getStatusPercent() }}%</div>
                 </div>
                 </td> 
                 <td class="text-center">

@@ -23,7 +23,7 @@
             <th>Nom produit</th>
             <th>Category</th>
             <th>Prix</th>
-            <th>Quantite en stock</th>
+            <th class="text-center">Quantite en stock</th>
             <th>Edition</th>
           </tr>
           {% for produit in produits %}
@@ -43,7 +43,8 @@
                 Aucun prix actif trouvé.
             {% endif %}
               </td>
-              <td>
+              <td class="text-center">
+                {{ produit.getStockProduit() }}
               </td>
               <td>
                 <a href="{{ path('produit.edit', { id: produit.id }) }}" class="btn-primary btn">Modifier</a>

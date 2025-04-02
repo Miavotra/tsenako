@@ -75,6 +75,7 @@
                     <option {{ commandeProduit.status == "En attente" ? "selected" : "" }} value="En attente">En attente</option>
                     <option {{ commandeProduit.status == "Validée" ? "selected" : "" }} value="Validée">Validée</option>
                     <option {{ commandeProduit.status == "Livrée" ? "selected" : "" }} value="Livrée">Livrée</option>
+                    <option {{ commandeProduit.status == "Annulée" ? "selected" : "" }} value="Annulée">Annulée</option>
                   </select>
                 </div>
                 <div class="col-del col-12 ">
@@ -119,14 +120,14 @@
     const deletProduit = function (e) {
       var select  = e.closest(".item-produit").querySelector("select.status");
       let newOption = document.createElement("option");
-      newOption.value = "-1";
-      newOption.text = "Annulé";
+      newOption.value = "Annulée";
+      newOption.text = "Annulée";
 
       // L'ajouter à la liste
       select.add(newOption);
 
       // Sélectionner la nouvelle option
-      select.value = "-1";
+      select.value = "Annulée";
       e.closest(".item-produit").setAttribute("hidden", "true");
       console.log(e.closest(".item-produit"));
     }

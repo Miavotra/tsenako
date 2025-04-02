@@ -38,9 +38,17 @@ class Produit
     #[Groups(['produit:read'])]
     private Collection $prixVentes;
 
+    #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'Produit', cascade: ['persist', 'remove'])]
+    private Collection $commandeProduits;
+
+    #[ORM\OneToMany(targetEntity: VenteProduit::class, mappedBy: 'produit', cascade: ['persist', 'remove'])]
+    private Collection $venteProduits;
+
     public function __construct()
     {
         $this->prixVentes = new ArrayCollection();
+        $this->commandeProduits = new ArrayCollection();
+        $this->venteProduits = new ArrayCollection();
     }
   
 
@@ -120,6 +128,22 @@ class Produit
         }
 
         return $this;
+    }
+    public function getStockProduit(): float
+    {
+        $nbrVenteProduit = 0;
+        $nbrCommandeProduit = 0;
+        foreach ($this->commandeProduits as $prod) {
+            if($prod->getStatus() === "Livrée") {
+                $nbrCommandeProduit += $prod->getQuantityReel();
+            }
+        }
+        foreach ($this->venteProduits as $vente) {
+            if($vente->getVente()->getStatus() === "Validée" || $vente->getVente()->getStatus() === "Livrée") {
+                $nbrVenteProduit += $vente->getQuantite();
+            }
+        }
+        return $nbrCommandeProduit  - $nbrVenteProduit;
     }
  
 }
