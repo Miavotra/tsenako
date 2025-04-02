@@ -41,6 +41,7 @@ class Commande
 
     public function __construct()
     {
+        $this->commandeProduits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,7 +135,17 @@ class Commande
         foreach ($this->commandeProduits as $commandeProduit) {
             $total += $commandeProduit->getPrixReel() * $commandeProduit->getQuantityReel();
         }
+
         return $total;
+    }
+
+    public function getStatusPercent(): float
+    {
+        $total = 0;
+        $nbrProduit = $this->commandeProduits->count();
+        $nbrProduitLivre = $this->commandeProduits->filter(fn(CommandeProduit $cp) => $cp->getStatus() === 'Livrée')->count();
+        
+        return $nbrProduitLivre/$nbrProduit*100;
     }
 
 }
