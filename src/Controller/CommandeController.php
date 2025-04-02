@@ -36,6 +36,33 @@ final class CommandeController extends AbstractController
         ]);
     }
 
+    #[Route('/commande/status/{id}', name: 'commande.status')]
+    #[IsGranted('ROLE_USER')]
+    public function commandeByStatus(int $id, Request $request, CommandeProduitRepository $commandeProduitRepository): Response
+    {
+        // -1 = Annulée
+        // 0 = En cours
+        // 1 = En attente
+        // 2 = Validée
+        // 3 = Livrée
+
+        $message = match ($id) {
+            0 => "En cours",
+            1 => "En attente",
+            2 => "Validée",
+            3 => "Livrée",
+            4 => "Annulée",
+        };
+
+        $produits = $commandeProduitRepository->findProductByStatusAndSumQuantities($message);
+
+        return $this->render('commande/index.html.twig', [
+            'produits' => $produits,
+        ]);
+    }
+
+
+
     #[Route('/commande/{id}/edit', 'commande.edit')]
     #[IsGranted('ROLE_USER')]
     public function edit(Commande $commande, Request $request, EntityManagerInterface $em, CommandeProduitRepository $commandeProduitRepository)
@@ -53,11 +80,6 @@ final class CommandeController extends AbstractController
             $i = 0;
             if($listProduit) {
                 foreach ($listProduit as $prod) {
-                    if ($listStatus[$i] == -1) {
-                        $em->remove($commandeProduits[$i]);
-                        $em->flush();
-                        continue;
-                    }
                     if ($commandeProduits[$i]->getProduit()->getId() == $prod) {
                         $commandeProduits[$i]->setStatus($listStatus[$i]);
                         $commandeProduits[$i]->setPrixReel($listPrixReel[$i]);
