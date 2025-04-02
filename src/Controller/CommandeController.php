@@ -48,7 +48,6 @@ final class CommandeController extends AbstractController
             $commande->setDescription($request->get('description'));
             $listProduit = $request->get('produit');
             $listStatus = $request->get('status');
-            $listCommande = $request->get('commande');
             $listQuantiteReel = $request->get('quantityreel');
             $listPrixReel = $request->get('prixreel');
             $i = 0;
@@ -63,6 +62,9 @@ final class CommandeController extends AbstractController
                         $commandeProduits[$i]->setStatus($listStatus[$i]);
                         $commandeProduits[$i]->setPrixReel($listPrixReel[$i]);
                         $commandeProduits[$i]->setQuantityReel($listQuantiteReel[$i]);
+                        if ($commandeProduits[$i]->getStatus() == 'Livrée') {
+                            $commandeProduits[$i]->setValidateBy($this->getUser());
+                        }
                     }
                     $em->persist($commandeProduits[$i]);
                     $i++;
