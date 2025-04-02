@@ -36,6 +36,9 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?User $createdBy = null;
 
+    #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'commande', cascade: ['persist', 'remove'])]
+    private Collection $commandeProduits;
+
     public function __construct()
     {
     }
@@ -114,6 +117,24 @@ class Commande
         $this->createdBy = $createdBy;
 
         return $this;
+    }
+
+    public function getTotalPrixCommande(): float
+    {
+        $total = 0;
+        foreach ($this->commandeProduits as $commandeProduit) {
+            $total += $commandeProduit->getPrixunitaire() * $commandeProduit->getQuantity();
+        }
+        return $total;
+    }
+
+    public function getTotalPrixReelCommande(): float
+    {
+        $total = 0;
+        foreach ($this->commandeProduits as $commandeProduit) {
+            $total += $commandeProduit->getPrixReel() * $commandeProduit->getQuantityReel();
+        }
+        return $total;
     }
 
 }
