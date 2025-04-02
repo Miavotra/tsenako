@@ -58,7 +58,7 @@ final class CommandeController extends AbstractController
                         $em->flush();
                         continue;
                     }
-                    if ($commandeProduits[$i]->getCommande()->getId() == $prod) {
+                    if ($commandeProduits[$i]->getProduit()->getId() == $prod) {
                         $commandeProduits[$i]->setStatus($listStatus[$i]);
                         $commandeProduits[$i]->setPrixReel($listPrixReel[$i]);
                         $commandeProduits[$i]->setQuantityReel($listQuantiteReel[$i]);
