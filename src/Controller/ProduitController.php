@@ -45,6 +45,7 @@ final class ProduitController extends AbstractController
             $obj->name = $produit->getName();
             $obj->prix = $produit->getPrixVente();
             $obj->category = $produit->getCategory()->getNom();
+            $obj->quantity = $produit->getStockProduit();
             $res[] = $obj; 
         }
 
