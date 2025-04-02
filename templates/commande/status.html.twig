@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Tous nos commande
+{% endblock %}
+
+{% block body %}
+  <section>
+    <div class="container">
+          <div class="sect-title">
+          <div class="h1 text-center pb-4">
+            Liste des produits " {{ status }} "
+            </div>  
+          </div>
+          <div class="header "> 
+              <a href="{{ path('commande.add') }}" class="report">
+                  <i class='bx bx-cloud-download'></i>
+                <span>Créer une nouvelle commande</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '1' }) }}" class="report loading ">
+              <span>En attente</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '0' }) }}" class="report pending" >
+                  <span>En cours</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '2' }) }}" class="report completed">
+                  <span>Validée</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '3' }) }}" class="report validate">
+                  <span>Livrée</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '4' }) }}" class="report not-completed">
+                  <span>Annulée</span>
+              </a> 
+          </div>
+        {% if commandesProduits is empty %}
+          <div class="alert alert-primary" role="alert">
+            Aucune commande {{ status }}
+          </div>
+        {%  else %}
+          <div class="body-content">
+            <table class="table table-striped">
+              <tr>
+                <th>Produit</th>
+                <th>Quantite</th>
+                <th>Edition</th>
+              </tr>
+              {% for commandeProduit in commandesProduits %}
+                <tr>
+                  <td>
+                    {{ commandeProduit.Produit.name }}
+                  </td>
+                  <td>
+                    {{ commandeProduit.quantity }}
+                  </td> 
+                  <td>
+                    <a href="{{ path('commande.edit', { id: commandeProduit.commande.id }) }}" class="btn-primary btn">Modifier</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        {% endif %} 
+    </div>
+  </section>
+{% endblock %}

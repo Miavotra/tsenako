@@ -35,11 +35,11 @@ final class CommandeController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function commandeByStatus(int $id, Request $request, CommandeProduitRepository $commandeProduitRepository): Response
     {
-        // -1 = Annulée
         // 0 = En cours
         // 1 = En attente
         // 2 = Validée
         // 3 = Livrée
+        // 4 = Annulée
 
         $message = match ($id) {
             0 => "En cours",
@@ -49,10 +49,10 @@ final class CommandeController extends AbstractController
             4 => "Annulée",
         };
 
-        $produits = $commandeProduitRepository->findProductByStatusAndSumQuantities($message);
-
-        return $this->render('commande/index.html.twig', [
-            'produits' => $produits,
+        $commandesProduits = $commandeProduitRepository->findProductByStatusAndSumQuantities($message);
+        return $this->render('commande/status.html.twig', [
+            'commandesProduits' => $commandesProduits,
+            'status' => $message,
         ]);
     }
 
@@ -65,20 +65,20 @@ final class CommandeController extends AbstractController
 
         $commandeProduits = $commandeProduitRepository->findByCommand($commande->getId());
         if ($request->getMethod() == "POST") {
-            $commande = new Commande();
             $commande->setReference($request->get('reference'));
             $commande->setDescription($request->get('description'));
+            $em->persist($commande);
             $listProduit = $request->get('produit');
             $listStatus = $request->get('status');
             $listQuantiteReel = $request->get('quantityreel');
             $listPrixReel = $request->get('prixreel');
             $i = 0;
-            if($listProduit) {
+            if ($listProduit) {
                 foreach ($listProduit as $prod) {
                     if ($commandeProduits[$i]->getProduit()->getId() == $prod) {
                         $commandeProduits[$i]->setStatus($listStatus[$i]);
-                        $commandeProduits[$i]->setPrixReel($listPrixReel[$i]);
-                        $commandeProduits[$i]->setQuantityReel($listQuantiteReel[$i]);
+                        $commandeProduits[$i]->setPrixReel($listPrixReel[$i] ? $listPrixReel[$i] : 0);
+                        $commandeProduits[$i]->setQuantityReel($listQuantiteReel[$i] ? $listQuantiteReel[$i] : 0);
                         if ($commandeProduits[$i]->getStatus() == 'Livrée') {
                             $commandeProduits[$i]->setValidateBy($this->getUser());
                         }

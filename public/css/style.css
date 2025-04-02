@@ -384,8 +384,20 @@ body {
     background: var(--warning);
 }
 
-.content main .header .report.pending {
-    background: var(--warning);
+.content main .header .report.completed {
+    background: var(--success);
+}
+
+.content main .header .report.validate {
+    background: var(--light-success);
+}
+
+.content main .header .report.loading {
+    background: var(--light-warning);
+}
+
+.content main .header .report.not-completed {
+    background: var(--danger);
 }
 
 .content main .header .report.pending:hover {

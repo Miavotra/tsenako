@@ -12,6 +12,21 @@
                   <i class='bx bx-cloud-download'></i>
                   <span>Créer une nouvelle commande</span>
               </a>
+              <a href="{{ path('commande.status', { id: '0' }) }}" class="report">
+                  <span>En cours</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '1' }) }}" class="report pending">
+                  <span>En attente</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '2' }) }}" class="report completed">
+                  <span>Validée</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '3' }) }}" class="report validate">
+                  <span>Livrée</span>
+              </a>
+              <a href="{{ path('commande.status', { id: '4' }) }}" class="report not-completed">
+                  <span>Annulée</span>
+              </a> 
           </div>
         <div class="body-content">
           <table class="table table-striped">
