@@ -49,11 +49,15 @@ final class CommandeController extends AbstractController
             $listProduit = $request->get('produit');
             $listStatus = $request->get('status');
             $listCommande = $request->get('commande');
+            $listQuantiteReel = $request->get('quantityreel');
+            $listPrixReel = $request->get('prixreel');
             $i = 0;
             if($listProduit) {
                 foreach ($listProduit as $prod) {
                     if ($commandeProduits[$i]->getCommande()->getId() == $listCommande[$i]) {
                         $commandeProduits[$i]->setStatus($listStatus[$i]);
+                        $commandeProduits[$i]->setPrixReel($listPrixReel[$i]);
+                        $commandeProduits[$i]->setQuantityReel($listQuantiteReel[$i]);
                     }
                     $em->persist($commandeProduits[$i]);
                     $i++;
