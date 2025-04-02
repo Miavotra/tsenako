@@ -20,17 +20,17 @@
           <div class="row align-items-end">
             <div class="col-md-4 col-sm-6 col-12">
               <div class="label">Reference</div>
-              <input type="text" class="form-control" name="" value="{{ commande.reference }}" disabled id="" />
-              <input type="hidden" class="form-control" name="reference" value="{{ commande.reference }}" id="" />
+              <input type="text" class="form-control" name="" value="{{ commande.reference }}" disabled  />
+              <input type="hidden" class="form-control" name="reference" value="{{ commande.reference }}"  />
             </div>
             <div class="col-md col-sm-6 col-12">
               <div class="label">Description</div>
-              <textarea name="description"  id="" class="form-control"> {{ commande.description }} </textarea>
+              <textarea name="description"   class="form-control"> {{ commande.description }} </textarea>
             </div>
             <div class="col-md col-sm-6 col-12">
               <div class="label">Proprio de la commande</div>
-              <input type="text" disabled class="form-control" name="" value="{{ commande.user.email }}" placeholder="{{ commande.user.email }}" id="" />
-              <input type="hidden"  class="form-control" name="user" value="{{ commande.user.id }}"   id="" />
+              <input type="text" disabled class="form-control" name="" value="{{ commande.user.email }}" placeholder="{{ commande.user.email }}"  />
+              <input type="hidden"  class="form-control" name="user" value="{{ commande.user.id }}"    />
             </div>
             <div class="col-md-auto col-sm-6 col-12">
               <button type="submit" class="btn-1 mb-10" required>Enregister</button>
@@ -46,23 +46,31 @@
               <div class="row align-items-end">
                 <div class="col-md-4 col-sm-6 col-12">
                   <div class="label">Nom du produit</div>
-                  <input type="text" name="" disabled value="{{ commandeProduit.produit.name }}" id="" class="form-control" required />
-                  <input type="hidden" name="produit[]" value="{{ commandeProduit.produit.id }}" id="" class="form-control" required />
-                  <input type="hidden" name="commande[]" value="{{ commande.id }}" id="" class="form-control" required />
+                  <input type="text" name="" disabled value="{{ commandeProduit.produit.name }}"  class="form-control" required />
+                  <input type="hidden" name="produit[]" value="{{ commandeProduit.produit.id }}"  class="form-control" required />
+                  <input type="hidden" name="commande[]" value="{{ commande.id }}"  class="form-control" required />
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Prix Unitaire</div>
-                  <input type="number" name="" disabled value="{{ commandeProduit.prixunitaire }}" id="" class="form-control" required />
-                  <input type="hidden" name="prixunitaire[]" value="{{ commandeProduit.prixunitaire }}" id="" class="form-control" required />
+                  <input type="number" name="" disabled value="{{ commandeProduit.prixunitaire }}"  class="form-control" required />
+                  <input type="hidden" name="prixunitaire[]" value="{{ commandeProduit.prixunitaire }}"  class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Prix Réel</div>
+                  <input type="number" name="prixreel[]" value="{{ commandeProduit.prixreel }}"  class="form-control" required />
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Quantité</div>
-                  <input type="number" name="" disabled value="{{ commandeProduit.quantity }}" id="" class="form-control" required />
-                  <input type="hidden" name="quantity[]" value="{{ commandeProduit.quantity }}" id="" class="form-control" required />
+                  <input type="number" name="" disabled value="{{ commandeProduit.quantity }}"  class="form-control" required />
+                  <input type="hidden" name="quantity[]" value="{{ commandeProduit.quantity }}"  class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Quantité Réel</div>
+                  <input type="number" name="quantityreel[]" value="{{ commandeProduit.quantityreel }}"  class="form-control" required />
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Status</div>
-                  <select name="status[]" id="" class="form-control" required>
+                  <select name="status[]"  class="form-control" required>
                     <option {{ commandeProduit.status == "En cours" ? "selected" : "" }} value="En cours">En cours</option>
                     <option {{ commandeProduit.status == "En attente" ? "selected" : "" }} value="En attente">En attente</option>
                     <option {{ commandeProduit.status == "Validée" ? "selected" : "" }} value="Validée">Validée</option>

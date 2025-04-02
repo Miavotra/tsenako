@@ -30,6 +30,15 @@ class CommandeProduit
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $prixReel = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $quantityReel = null;
+
+    #[ORM\ManyToOne]
+    private ?User $validateBy = null;
+
     public function getCommande(): ?Commande
     {
         return $this->commande;
@@ -90,5 +99,40 @@ class CommandeProduit
         return $this;
     }
 
+    public function getPrixReel(): ?int
+    {
+        return $this->prixReel;
+    }
+
+    public function setPrixReel(?int $prixReel): static
+    {
+        $this->prixReel = $prixReel;
+
+        return $this;
+    }
+
+    public function getQuantityReel(): ?int
+    {
+        return $this->quantityReel;
+    }
+
+    public function setQuantityReel(?int $quantityReel): static
+    {
+        $this->quantityReel = $quantityReel;
+
+        return $this;
+    }
+
+    public function getValidateBy(): ?User
+    {
+        return $this->validateBy;
+    }
+
+    public function setValidateBy(?User $validateBy): static
+    {
+        $this->validateBy = $validateBy;
+
+        return $this;
+    }
    
 }
