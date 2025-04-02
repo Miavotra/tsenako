@@ -18,9 +18,11 @@
             <tr>
               <th>Date</th>
               <th>Description</th>
-              <th>Propriétaire</th>
               <th>Createur</th>
               <th>Status</th>
+              <th>Nbr Produits</th>
+              <th>Prix Estimer</th>
+              <th>Prix Réel</th>
               <th>Edition</th>
             </tr>
             {% for commande in commandes %}
@@ -32,13 +34,22 @@
                   {{ commande.description }}
                 </td> 
                 <td>
-                  {{ commande.user.email }}
+                  {{ commande.createdby.name }}
+                </td> 
+                <td>
+                  <div class="progress" data-value="" >
+                  <div class="progress-bar" role="progressbar" style="width: {{ commande.getStatusPercent() }}%;" aria-valuenow="{{ commande.getStatusPercent() }}%" aria-valuemin="0" aria-valuemax="100">{{ commande.getStatusPercent() }}%</div>
+                </div>
+                </td> 
+                <td class="text-center">
+                  {{ commande.getNombreProduit() }}
                 </td>
-                <td>
-                  {{ commande.createdby.email }}
-                </td> 
-                <td>
-                </td> 
+                <td class="text-center">
+                  {{ commande.getTotalPrixCommande() | number_format }} Ar
+                </td>
+                <td class="text-center">
+                  {{ commande.getTotalPrixReelCommande() | number_format }} Ar
+                </td>
                 <td>
                   <a href="{{ path('commande.edit', { id: commande.id }) }}" class="btn-primary btn">Modifier</a>
                 </td>

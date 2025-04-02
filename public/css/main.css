@@ -285,7 +285,7 @@ form .form-btn button:hover::before {
     width: 100%;
     flex: 1;
     line-height: 20px;
-    padding: 10px 20px;
+    padding: 10px 5px 10px 15px;
     font-size: 16px;
     min-height: 50px;
     border: none;
@@ -313,7 +313,7 @@ form .form-btn button:hover::before {
 
 .form-custom .item-produit {
     width: 100%;
-    display: block !important;
+    display: block;
 }
 
 .title-form {
@@ -321,4 +321,17 @@ form .form-btn button:hover::before {
     font-weight: bold;
     color: #FF9211;
     line-height: 54px;
+}
+
+.text-form {
+    text-align: right;
+    font-weight: bold;
+    font-size: 22px;
+    color: #282828;
+}
+
+.col-del {
+    flex: 0 0 50px;
+    -ms-flex: 0 0 50px;
+    max-width: 50px;
 }

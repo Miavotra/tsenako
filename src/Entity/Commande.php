@@ -143,9 +143,14 @@ class Commande
     {
         $total = 0;
         $nbrProduit = $this->commandeProduits->count();
+        if($nbrProduit == 0) return 0;
         $nbrProduitLivre = $this->commandeProduits->filter(fn(CommandeProduit $cp) => $cp->getStatus() === 'Livrée')->count();
         
         return $nbrProduitLivre/$nbrProduit*100;
+    }
+    public function getNombreProduit(): float
+    {
+        return $this->commandeProduits->count();        
     }
 
 }

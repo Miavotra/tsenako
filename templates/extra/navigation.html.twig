@@ -13,7 +13,7 @@
      <li class="{{ app.current_route starts with 'vente.' ? 'active' : '' }}" ><a href="{{ path('vente.index') }}"><i class='bx bx-purchase-tag'></i>Vente</a></li>
      <li class="{{ app.current_route starts with 'user.' ? 'active' : '' }}" ><a href="{{ path('user.index') }}"><i class='bx bx-group'></i>Users</a></li>
  </ul>
- <ul class="side-menu">
+ <ul class="side-menu logout-menu">
      <li>
          <a href="{{ path('app_logout') }}" class="logout">
              <i class='bx bx-log-out-circle'></i> Logout

@@ -9,7 +9,7 @@
     <div class="container">
       <div class="form-box">
         <div class="sect-title">
-          <h1>Création d'un nouveau commande</h1>
+          <h1>Modification d'un nouveau commande</h1>
         </div>
 
         {% if error is defined %}
@@ -70,27 +70,65 @@
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Status</div>
-                  <select name="status[]"  class="form-control" required>
+                  <select name="status[]"  class="form-control status" required>
                     <option {{ commandeProduit.status == "En cours" ? "selected" : "" }} value="En cours">En cours</option>
                     <option {{ commandeProduit.status == "En attente" ? "selected" : "" }} value="En attente">En attente</option>
                     <option {{ commandeProduit.status == "Validée" ? "selected" : "" }} value="Validée">Validée</option>
                     <option {{ commandeProduit.status == "Livrée" ? "selected" : "" }} value="Livrée">Livrée</option>
                   </select>
                 </div>
+                <div class="col-del col-12 ">
+                  <button type="button" onclick="deletProduit(this)" class="btn btn-danger mb-15">
+                      <i class='fa  fa-trash'></i>
+                  </button>
+                </div>
               </div>
               <hr />
             </div>
           {% endfor %}
+            <div class="row justify-content-end">
+              <div class="col-lg-4 col-sm-6 col-12 text-right">
+                  <div class="label">
+                    Prix Total Estimer
+                  </div>
+              </div>
+              <div class="col-lg-4 col-sm-6 col-12">
+                  <div class="text-form">
+                    {{ commande.getTotalPrixCommande() | number_format }} Ariary
+                  </div>
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-lg-4 col-sm-6 col-12 text-right">
+                  <div class="label">
+                    Prix Total Réel
+                  </div>
+              </div>
+              <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="text-form">
+                      {{ commande.getTotalPrixReelCommande() | number_format }} Ariary
+                    </div>
+              </div>
+            </div>
         </form>
       </div>
     </div>
   </section>
 
   <script>
-    const addProduit = function () {
-      let item = document.querySelector('.item-produit').getHTML(),
-        itemLast = document.querySelectorAll('.item-produit')[document.querySelectorAll('.item-produit').length - 1]
-      itemLast.insertAdjacentHTML('afterend', item)
+    const deletProduit = function (e) {
+      var select  = e.closest(".item-produit").querySelector("select.status");
+      let newOption = document.createElement("option");
+      newOption.value = "-1";
+      newOption.text = "Annulé";
+
+      // L'ajouter à la liste
+      select.add(newOption);
+
+      // Sélectionner la nouvelle option
+      select.value = "-1";
+      e.closest(".item-produit").setAttribute("hidden", "true");
+      console.log(e.closest(".item-produit"));
     }
   </script>
 {% endblock %}
