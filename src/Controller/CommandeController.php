@@ -3,13 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\CommandeProduit;
-use App\Form\CommandeType;
 use App\Entity\Commande;
-use App\Entity\Produit;
-use App\Entity\User;
 use App\Repository\CommandeProduitRepository;
 use App\Repository\CommandeRepository;
-use App\Repository\PrixVenteRepository;
 use App\Repository\UserRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +16,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Validator\Constraints\Length;
 
 
 final class CommandeController extends AbstractController
@@ -105,7 +100,7 @@ final class CommandeController extends AbstractController
 
     #[Route('/commande/add', 'commande.add')]
     #[IsGranted('ROLE_USER')]
-    public function add(Request $request, EntityManagerInterface $em, SessionInterface $session, UserRepository $Userrepository, ProduitRepository $Produitrepository): RedirectResponse|Response
+    public function add(Request $request, EntityManagerInterface $em, SessionInterface $session, UserRepository $Userrepository, ProduitRepository $Produitrepository, CommandeProduitRepository $commandeProduitRepository): RedirectResponse|Response
     {
         $commande = new Commande();
 
@@ -125,16 +120,28 @@ final class CommandeController extends AbstractController
             $listStatus = $request->get('status');
             $i = 0;
             foreach ($listProduit as $prod) {
-                $commandeProduit = new CommandeProduit();
-                $produit = $Produitrepository->find($listProduit[$i]);
-                $commandeProduit->setCommande($commande);
-                $commandeProduit->setProduit($produit);
-                $commandeProduit->setQuantity($listQuantite[$i]);
-                $commandeProduit->setPrixunitaire($listPrix[$i]);
-                $commandeProduit->setStatus($listStatus[$i]);
-                $i++;
-                $em->persist($commandeProduit);
+                // Vérifier si le produit est déjà associé à cette vente
+                $produit = $Produitrepository->find($prod);
+                $commandeProduitExist = $commandeProduitRepository->findOneBy([
+                    'commande' => $commande,
+                    'Produit' => $produit
+                ]);
 
+                if ($commandeProduitExist) {
+                    $commandeProduitExist->setQuantity($commandeProduitExist->getQuantity() + $listQuantite[$i]);
+                    $em->persist($commandeProduitExist);
+                } else {
+                    $commandeProduit = new CommandeProduit();
+                    $produit = $Produitrepository->find($prod);
+                    $commandeProduit->setCommande($commande);
+                    $commandeProduit->setProduit($produit);
+                    $commandeProduit->setQuantity($listQuantite[$i]);
+                    $commandeProduit->setPrixunitaire($listPrix[$i]);
+                    $commandeProduit->setStatus($listStatus[$i]);
+                    $em->persist($commandeProduit);
+                    $em->flush();
+                }
+                $i++;
             }
             $em->flush();
 

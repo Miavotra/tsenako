@@ -35,7 +35,7 @@ final class VenteController extends AbstractController
 
     #[Route('/vente/add', 'vente.add')]
     #[IsGranted('ROLE_USER')]
-    public function add(Request $request, EntityManagerInterface $em, UserRepository $userRepository, ProduitRepository $produitRepository): RedirectResponse|Response
+    public function add(Request $request, EntityManagerInterface $em, UserRepository $userRepository, ProduitRepository $produitRepository, VenteProduitRepository $venteProduitRepository): RedirectResponse|Response
     {
         $vente = new Vente();
 
@@ -53,15 +53,27 @@ final class VenteController extends AbstractController
             $listPrix = $request->get('prixunitaire');
             $i = 0;
             foreach ($listProduit as $prod) {
-                $venteProduit = new VenteProduit();
-                $produit = $produitRepository->find($listProduit[$i]);
-                $venteProduit->setVente($vente);
-                $venteProduit->setProduit($produit);
-                $venteProduit->setQuantite($listQuantite[$i]);
-                $venteProduit->setPrixVente($listPrix[$i]);
-                $i++;
-                $em->persist($venteProduit);
+                // Vérifier si le produit est déjà associé à cette vente
+                $produit = $produitRepository->find($prod);
+                $venteProduitExist = $venteProduitRepository->findOneBy([
+                    'vente' => $vente,
+                    'produit' => $produit
+                ]);
 
+                if ($venteProduitExist) {
+                    $venteProduitExist->setQuantite($venteProduitExist->getQuantite() + $listQuantite[$i]);
+                    $em->persist($venteProduitExist);
+                } else {
+                    $venteProduit = new VenteProduit();
+                    $produit = $produitRepository->find($prod);
+                    $venteProduit->setVente($vente);
+                    $venteProduit->setProduit($produit);
+                    $venteProduit->setQuantite($listQuantite[$i]);
+                    $venteProduit->setPrixVente($listPrix[$i]);
+                    $em->persist($venteProduit);
+                    $em->flush();
+                }
+                $i++;
             }
             $em->flush();
 
