@@ -49,7 +49,7 @@ final class CommandeController extends AbstractController
             4 => "Annulée",
         };
 
-        $commandesProduits = $commandeProduitRepository->findProductByStatusAndSumQuantities($message);
+        $commandesProduits = $commandeProduitRepository->findProductByStatus($message);
         return $this->render('commande/status.html.twig', [
             'commandesProduits' => $commandesProduits,
             'status' => $message,

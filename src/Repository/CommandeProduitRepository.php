@@ -35,7 +35,7 @@ class CommandeProduitRepository extends ServiceEntityRepository
      *
      * @return array
      */
-    public function findProductByStatusAndSumQuantities($status): array
+    public function findProductByStatus($status): array
     { 
         return $this->createQueryBuilder('c')
         ->andWhere('c.status = :val')

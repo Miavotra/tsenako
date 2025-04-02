@@ -47,36 +47,43 @@
               <button type="button" onclick="addProduit()" class="btn-1 type-2">Ajouter un produit</button>
             </div>
           </div>
-          <div class="item-produit mb-4">
-            <div class="row align-items-end">
-              <div class="col-md-4 col-sm-6 col-12">
-                <div class="label">Choisissez un produit</div>
-                <select name="produit[]" class="form-control" required>
-                  {% for produit in produits %}
-                    <option value="{{ produit.id }}">{{ produit.name }}</option>
-                  {% endfor %}
-                </select>
+          <div class="list-produit">
+            <div class="item-produit mb-4">
+              <div class="row align-items-end">
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="label">Choisissez un produit</div>
+                  <select name="produit[]" class="form-control" required>
+                    {% for produit in produits %}
+                      <option value="{{ produit.id }}">{{ produit.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Prix Unitaire</div>
+                  <input type="number" name="prixunitaire[]" id="" class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Quantité</div>
+                  <input type="number" name="quantity[]" id="" class="form-control" required />
+                </div>
+                <div class="col-md col-sm-6 col-12">
+                  <div class="label">Status</div>
+                  <select name="status[]" id="" class="form-control" required>
+                    <option value="En cours">En cours</option>
+                    <option value="En attente">En attente</option>
+                    <option value="Validée">Validée</option>
+                    <option value="Livrée">Livrée</option>
+                  </select>
+                </div>
+                <div class="col-del col-12 ">
+                  <button type="button" onclick="deletProduit(this)" class="btn btn-danger mb-15">
+                      <i class='fa  fa-trash'></i>
+                  </button>
+                </div>
               </div>
-              <div class="col-md col-sm-6 col-12">
-                <div class="label">Prix Unitaire</div>
-                <input type="number" name="prixunitaire[]" id="" class="form-control" required />
-              </div>
-              <div class="col-md col-sm-6 col-12">
-                <div class="label">Quantité</div>
-                <input type="number" name="quantity[]" id="" class="form-control" required />
-              </div>
-              <div class="col-md col-sm-6 col-12">
-                <div class="label">Status</div>
-                <select name="status[]" id="" class="form-control" required>
-                  <option value="En cours">En cours</option>
-                  <option value="En attente">En attente</option>
-                  <option value="Validée">Validée</option>
-                  <option value="Livrée">Livrée</option>
-                </select>
-              </div>
-            </div>
-            <hr>
-          </div> 
+              <hr>
+            </div> 
+          </div>
         </form>
       </div>
     </div>
@@ -85,9 +92,24 @@
   <script>
     
     const addProduit = function () {
-      let item = document.querySelector('.item-produit').getHTML(),
-        itemLast = document.querySelectorAll('.item-produit')[document.querySelectorAll('.item-produit').length - 1];
-        itemLast.insertAdjacentHTML("afterend",item);
+      let item = document.querySelector('.item-produit').cloneNode(true),
+        itemLast = document.querySelector('.list-produit');
+        item.querySelectorAll("input, textarea").forEach(field => {
+            if (field.type === "checkbox" || field.type === "radio") {
+                field.checked = false; // Décocher les cases
+            } else {
+                field.value = ""; // Vider les champs texte
+            }
+        });
+        itemLast.appendChild(item);
+    }
+    const deletProduit = function (e) {
+      if(document.querySelectorAll('.item-produit').length == 1) return;
+      var element = e.closest(".item-produit").remove();
+      if (element) {
+          element.remove();
+      }
     }
   </script>
+ 
 {% endblock %}

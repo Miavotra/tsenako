@@ -57,7 +57,12 @@
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Prix Réel</div>
+                  {% if commandeProduit.status == "Validée" or commandeProduit.status == "Livrée" %}
+                  <input type="number" disabled name="prixreel[]" value="{{ commandeProduit.prixreel }}"  class="form-control"  />
+                  <input type="hidden" name="prixreel[]" value="{{ commandeProduit.prixreel }}"  class="form-control"  />
+                  {% else %}
                   <input type="number" name="prixreel[]" value="{{ commandeProduit.prixreel }}"  class="form-control"  />
+                  {% endif %}
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Quantité</div>
@@ -66,22 +71,28 @@
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Quantité Réel</div>
-                  <input type="number" name="quantityreel[]" value="{{ commandeProduit.quantityreel }}"  class="form-control"  />
+                  {% if commandeProduit.status == "Validée" or commandeProduit.status == "Livrée" %}
+                    <input type="number" disabled name="" value="{{ commandeProduit.quantityreel }}"  class="form-control"  />
+                    <input type="hidden" name="quantityreel[]" value="{{ commandeProduit.quantityreel }}"  class="form-control"  />
+                  {% else %}
+                    <input type="number" name="quantityreel[]" value="{{ commandeProduit.quantityreel }}"  class="form-control"  />
+                  {% endif %}
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Status</div>
                   <select name="status[]"  class="form-control status" required>
+                    {% if commandeProduit.status != "Validée" and commandeProduit.status != "Livrée" %}
                     <option {{ commandeProduit.status == "En cours" ? "selected" : "" }} value="En cours">En cours</option>
                     <option {{ commandeProduit.status == "En attente" ? "selected" : "" }} value="En attente">En attente</option>
-                    <option {{ commandeProduit.status == "Validée" ? "selected" : "" }} value="Validée">Validée</option>
+                    {% endif %}
+                    {% if commandeProduit.status != "Livrée" %}
+                      <option {{ commandeProduit.status == "Validée" ? "selected" : "" }} value="Validée">Validée</option>
+                    {% endif %}
                     <option {{ commandeProduit.status == "Livrée" ? "selected" : "" }} value="Livrée">Livrée</option>
+                    {% if commandeProduit.status != "Validée" and commandeProduit.status != "Livrée" %}
                     <option {{ commandeProduit.status == "Annulée" ? "selected" : "" }} value="Annulée">Annulée</option>
+                    {% endif %}
                   </select>
-                </div>
-                <div class="col-del col-12 ">
-                  <button type="button" onclick="deletProduit(this)" class="btn btn-danger mb-15">
-                      <i class='fa  fa-trash'></i>
-                  </button>
                 </div>
               </div>
               <hr />
@@ -129,7 +140,6 @@
       // Sélectionner la nouvelle option
       select.value = "Annulée";
       e.closest(".item-produit").setAttribute("hidden", "true");
-      console.log(e.closest(".item-produit"));
     }
   </script>
 {% endblock %}
