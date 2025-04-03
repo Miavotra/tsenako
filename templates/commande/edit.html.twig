@@ -25,7 +25,7 @@
             </div>
             <div class="col-md col-sm-6 col-12">
               <div class="label">Description</div>
-              <textarea name="description"   class="form-control"> {{ commande.description }} </textarea>
+              <textarea name="description"   class="form-control">{{ commande.description }}</textarea>
             </div>
             <div class="col-md col-sm-6 col-12">
               <div class="label">Proprio de la commande</div>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-md col-sm-6 col-12">
                   <div class="label">Quantité Réel</div>
-                  {% if commandeProduit.status == "Validée" or commandeProduit.status == "Livrée" %}
+                  {% if commandeProduit.status == "Livrée" %}
                     <input type="number" disabled name="" value="{{ commandeProduit.quantityreel }}"  class="form-control"  />
                     <input type="hidden" name="quantityreel[]" value="{{ commandeProduit.quantityreel }}"  class="form-control"  />
                   {% else %}

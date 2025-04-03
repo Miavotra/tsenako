@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ProduitType;
 use App\Entity\Produit;
 use App\Entity\PrixVente;
+use App\Repository\CommandeProduitRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\PrixVenteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -109,4 +110,14 @@ final class ProduitController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/produit/suivi', name: 'produit.suivi')]
+    #[IsGranted('ROLE_USER')]
+    public function suivi(CommandeProduitRepository $repository): Response
+    {
+        $commandesProduits = $repository->findProductSuivi(); 
+        return $this->render('produit/suivi.html.twig', [
+            'commandesProduits' => $commandesProduits,
+        ]);
+    }
+
 }

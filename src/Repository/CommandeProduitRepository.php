@@ -44,7 +44,22 @@ class CommandeProduitRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult()
         ;
-    }
+    } 
+    /**
+     * Get all products with 'done' status and sum the quantity for each product.
+     *
+     * @return array
+     */
+    public function findProductSuivi(): array
+    { 
+        return $this->createQueryBuilder('c')
+        ->andWhere('c.status = :val')
+        ->setParameter('val', "Livrée")
+        ->orderBy('c.updatedAt', 'DESC')
+        ->getQuery()
+        ->getResult()
+        ;
+    } 
 
     //    public function findOneBySomeField($value): ?CommandeProduit
     //    {

@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\CommandeProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: CommandeProduitRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class CommandeProduit
 {
     #[ORM\Id]
@@ -38,6 +40,9 @@ class CommandeProduit
 
     #[ORM\ManyToOne]
     private ?User $validateBy = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $updatedAt = null;
 
     public function getCommande(): ?Commande
     {
@@ -131,6 +136,20 @@ class CommandeProduit
     public function setValidateBy(?User $validateBy): static
     {
         $this->validateBy = $validateBy;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+    
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): static
+    {
+        $this->updatedAt =  new DateTime();
 
         return $this;
     }

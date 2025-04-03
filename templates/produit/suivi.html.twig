@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Tous nos produit
+{% endblock %}
+
+{% block body %}
+<section>
+  <div class="container">
+        <div class="sect-title">
+        <div class="h1 text-center pb-4">
+          Liste des entrés des produits 
+          </div>  
+        </div>
+        <div class="header "> 
+            <a href="{{ path('commande.add') }}" class="report">
+                <i class='bx bx-cloud-download'></i>
+              <span>Créer une nouvelle commande</span>
+            </a>
+            <a href="{{ path('commande.status', { id: '1' }) }}" class="report loading ">
+            <span>En attente</span>
+            </a>
+            <a href="{{ path('commande.status', { id: '0' }) }}" class="report pending" >
+                <span>En cours</span>
+            </a>
+        </div> 
+        <div class="body-content">
+          <table class="table table-striped text-center">
+            <tr>
+              <th class="text-left">Produit</th>
+              <th>Quantite</th>
+              <th>Proprio</th>
+              <th>Validée par</th>
+              <th>Date d'ajout</th>
+            </tr>
+            {% for commandeProduit in commandesProduits %}
+              <tr>
+                <td class="text-left">
+                  {{ commandeProduit.Produit.name }}
+                </td>
+                <td>
+                  {{ commandeProduit.quantity }}
+                </td> 
+                <td>
+                  {{ commandeProduit.commande.User.name }}
+                </td> 
+                <td>
+                  {{ commandeProduit.validateBy.name }}
+                </td> 
+                <td>
+                  {{  commandeProduit.updatedAt ? commandeProduit.updatedAt.format('Y-m-d H:i:s') : "" }}
+                </td>  
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+  </div>
+</section>
+{% endblock %}
